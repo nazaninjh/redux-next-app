@@ -1,0 +1,32 @@
+{
+  "users": [
+    {
+      "id": "8887js",
+      "name": "Nazanin",
+      "email": "nazanin@gmail.com",
+      "password": "nazanin@gm"
+    },
+    {
+      "id": "1e46",
+      "name": "Hossein",
+      "email": "hosseini@gmail.com",
+      "password": "Hossein55#"
+    }
+  ],
+  "blogs": [
+    {
+      "id": "8887js",
+      "userId": "8887js",
+      "title": "First Blog",
+      "content": "I'm writing my first blog",
+      "date": "2024-05-24T18:53:45.045Z"
+    },
+    {
+      "id": "2906",
+      "userId": "1e46",
+      "title": "This is me",
+      "content": "writing all about me!",
+      "date": "2024-06-26T15:41:44.616Z"
+    }
+  ]
+}

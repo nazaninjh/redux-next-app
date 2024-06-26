@@ -3,10 +3,17 @@
   "scripts": {
     "dev": "next",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "server": "json-server --port 3500 ./data/db.json"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^6.5.2",
+    "@fortawesome/free-solid-svg-icons": "^6.5.2",
+    "@fortawesome/react-fontawesome": "^0.2.2",
     "@reduxjs/toolkit": "^2.2.0",
+    "date-fns": "^3.6.0",
+    "font-awesome": "^4.7.0",
+    "json-server": "^1.0.0-beta.1",
     "next": "latest",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
