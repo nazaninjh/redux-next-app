@@ -123,6 +123,7 @@
   box-shadow: 1px 2px 2.5px var(--form-bg-clr);
   border-radius: 0.2rem;
   padding: 1rem;
+  position: relative;
 }
 
 .blog > a {
@@ -135,8 +136,28 @@
   background-color: rgb(86, 86, 86);
   color: white;
 }
-.blog > button {
+.blog  button {
+  position: absolute;
+  right: 0.7rem;
+  background-color: transparent;
+  border: none;
   cursor: pointer;
+  width: 2rem;
+}
+.optionsIconNav {
+  position: absolute;
+  top: 2.6rem;
+  right: 1.8rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  background-color: rgb(86, 86, 86);
+  padding: 0.8rem 1rem;
+  border-radius: 0.3rem;
+  border-top-right-radius: 0;
+}
+.optionsIconNav a:visited {
+  color: white;
 }
 
 
