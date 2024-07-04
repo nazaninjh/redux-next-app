@@ -2,7 +2,7 @@
 
 import { selectBlogById, useGetAllBlogsQuery } from "./../../../lib/features/blog/blogSlice";
 import { useSelector } from "react-redux";
-import Link from "next/link";
+
 
 import { selectUserById, useGetAllUsersQuery } from "./../../../lib/features/users/usersSlice";
 export default function BlogPage({ params }) {

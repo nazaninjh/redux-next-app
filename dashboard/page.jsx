@@ -3,6 +3,7 @@ import AuthContext, { AuthProvider } from "./../../context/AuthProvider";
 import CreateForm from "./../ui/create-form";
 import { useContext, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import Dashboard from './../ui/dashboard';
 
 export default function DashboardPage() {
   // check auth
@@ -17,6 +18,7 @@ export default function DashboardPage() {
   }, [Auth, router])
   
   return (
-    Auth.user ? <div>{`${Auth.user}'s Dashboard`}</div> : <div>Dashboard Page</div>
+    Auth.user ? <Dashboard Authuser={Auth.user}/> : <div>Dashboard Page</div>
   )
 }
+

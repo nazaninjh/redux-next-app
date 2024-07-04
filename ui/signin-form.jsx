@@ -2,10 +2,11 @@
 
 import { useContext, useEffect, useReducer, useRef, useState } from "react"
 import style from './../page.module.css';
-import { useGetAllUsersQuery } from "./../../lib/features/users/usersSlice";
+import { selectAllUsers, useGetAllUsersQuery } from "./../../lib/features/users/usersSlice";
 import AuthContext from "./../../context/AuthProvider";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { useSelector } from "react-redux";
 const PWD_REG = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!%$#]).{8,24}$/;
 const NAME_REG = /^[a-zA-Z][^0-9]{4,13}$/;
 
@@ -16,7 +17,9 @@ export default function CreateSigninForm() {
   const router = useRouter();
   const userRef = useRef();
   const [errMsg, setErrMsg] = useState(null);
-  const users = useGetAllUsersQuery().data;
+  const { data } = useGetAllUsersQuery();
+
+  const users = useSelector(state => selectAllUsers(state));
   const userAction = (userState, action) => {
     switch (action.type) {
         case 'user-name':
@@ -134,7 +137,8 @@ export default function CreateSigninForm() {
     validateSignin();
    if (!errMsg) {
     users.map(user => {
-        if (user.name === userState.userName && user.password === pwdState.pwd) {
+        const userName = user.name.toLowerCase();
+        if (userName === userState.userName && user.password === pwdState.pwd) {
             userDispatch({
                 type: 'user-name',
                 value: ''
@@ -143,7 +147,7 @@ export default function CreateSigninForm() {
                 type: 'pwd',
                 value: ''
             });
-            setAuth({user: userState.userName});
+            setAuth({user: userState.userName.toLowerCase()});
             setErrMsg(null)
             
         }

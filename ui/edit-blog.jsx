@@ -4,12 +4,14 @@ import { useReducer, useState, useEffect, useLayoutEffect } from "react";
 import { selectAllUsers, useGetAllUsersQuery } from "./../../lib/features/users/usersSlice";
 import { useSelector } from "react-redux";
 import style from './../page.module.css'
-import { selectAllBlogs, useAddBlogMutation, useGetAllBlogsQuery } from "./../../lib/features/blog/blogSlice";
+import { selectAllBlogs, useAddBlogMutation, useEditBlogMutation, useGetAllBlogsQuery } from "./../../lib/features/blog/blogSlice";
+import { useRouter } from "next/navigation";
 
 const TITLE_REG = /^[a-zA-Z0-9_].{4,20}$/;
 const CONTENT_REG = /^[a-zA-Z0-9_].{10,150}$/;
 
-export default function CreateBlog() {
+export default function EditBlog({ blogId }) {
+  const router = useRouter();
   const [errMsg, setErrMsg] = useState(null);
   const [isOk, setIsOk] = useState(false);
   const [status, setStatus] = useState('idle');
@@ -22,8 +24,8 @@ export default function CreateBlog() {
   } = useGetAllBlogsQuery();
   const blogs = useSelector(state => selectAllBlogs(state));
   const users = useSelector(state => selectAllUsers(state));
-  
-  const [addBlog] = useAddBlogMutation();
+  const toEditBlog = blogs.find(blog => blog.id === blogId);
+  const [ editBlogFn ] = useEditBlogMutation();
   const fieldAction = (clientState, action) => {
     switch (action.type) {
         case 'author':
@@ -68,15 +70,14 @@ export default function CreateBlog() {
               blogContentValid: false
             }
 
-    }
-      
-            
-  } 
+    }          
+  };
+
   const [fieldState, fieldDispatch] = useReducer(fieldAction, {
     author: 0,
-    title: '',
+    title: toEditBlog ? toEditBlog.title : '',
     titleValid: false,
-    blogContent: '',
+    blogContent: toEditBlog ? toEditBlog.content : '',
     blogContentValid: false
   });
   const canSave = status === 'idle' && fieldState.author !== 0 &&
@@ -113,9 +114,6 @@ export default function CreateBlog() {
       ) {
           setErrMsg('Blog Already Posted!');
           setIsOk(false);
-      } else if (blog.content === fieldState.blogContent) {
-          setErrMsg('Content Already Exists!');
-          setIsOk(false);
       } else if (blog.title !== fieldState.title && blog.content !== fieldState.blogContent) {
         setIsOk(true);
         setErrMsg(null);
@@ -133,7 +131,9 @@ export default function CreateBlog() {
       try {
         if (!errMsg && status === 'idle' && isOk) {
           setStatus('pending');
-          await addBlog({
+          await data;
+          await editBlogFn({
+            id: toEditBlog.id,
             userId: fieldState.author,
             title: fieldState.title,
             content: fieldState.blogContent,
@@ -148,7 +148,7 @@ export default function CreateBlog() {
         type: 'empty-values'
       }); 
       setStatus('idle');
-      
+      router.push('/blog')
     }
     
     
@@ -156,11 +156,17 @@ export default function CreateBlog() {
   let content;
   let usersList;
   if (isSuccess) {
-    usersList = users.map(user => {
-      return (
-          <option key={user.id} value={user.id}>{user.name}</option>
-      )
+    const edittingUser = users.find(user => {
+      return user.userId === toEditBlog.userId 
     })
+    usersList = 
+    (edittingUser ? <option value={edittingUser.id}>{edittingUser.name}</option> :
+    users.map(user => {
+        return (
+            <option key={user.id} value={user.id}>{user.name}</option>
+        )
+    }))
+    
   } else if (isLoading) {
     content = <p>Loading...</p>
   } else if (isError) {
