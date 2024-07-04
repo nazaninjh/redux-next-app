@@ -1,0 +1,42 @@
+'use client'
+
+import { useEffect, useState } from "react";
+import { useDeleteBlogMutation } from "../lib/features/blog/blogSlice";
+import { useRouter } from "next/navigation";
+
+export default function DeleteFn({ id }) {
+  const [ confirmed, setConfirmed ] = useState(null);
+  const [ deleteBlog, {isLoading} ] = useDeleteBlogMutation();
+  const router = useRouter();
+  
+  useEffect(() => {
+    const blogConfirmed = confirm('Are you sure you want to delete?');
+    if (!blogConfirmed) {
+      setConfirmed(false);
+    } else if (blogConfirmed) {
+      setConfirmed(true);
+    }
+    
+    
+  }, [confirmed])
+  useEffect(() => {
+    if (confirmed) {
+      handleDel();
+    } else if (confirmed === false && !isLoading) {
+      router.push('/blog');
+    }
+  }, [confirmed])
+  const handleDel = async () => {
+    try {
+      await deleteBlog(id);
+      router.push('/blog');
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  if (isLoading) {
+    return <p>Please wait...</p>
+  }
+ 
+  
+}

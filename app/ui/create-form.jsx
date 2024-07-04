@@ -18,6 +18,7 @@ export default function CreateForm() {
   const [addNewUser, { isLoading }] = useAddNewUserMutation();
   const userRef = useRef();
   const [errMsg, setErrMsg] = useState(null);
+  const [isOk, setIsOk] = useState(false);
   const { data } = useGetAllUsersQuery();
   const users = useSelector(state => selectAllUsers(state));
   const userAction = (userState, action) => {
@@ -183,15 +184,22 @@ export default function CreateForm() {
   }, [pwdState.pwd, pwdmatchState.pwdmatch])
   
 
-  const validateSignup = () => {
+  const validateSignup = async () => {
+    await data;
         users.map(user => {
             if (user.name === userState.userName && user.email === emailState.email
             ) {
+                setIsOk(false);
                 setErrMsg('User name and email Already in use!')
             } else if (user.email === emailState.email) {
+                setIsOk(false);
                 setErrMsg('Email already in use!')
             } else if (user.name === userState.userName) {
+                setIsOk(false);
                 setErrMsg('Name already in use!')
+            } else if (user.name !== userState.userName && user.email !== emailState.email) {
+                setIsOk(true);
+                setErrMsg(null);
             }
         })   
   };
@@ -202,10 +210,10 @@ export default function CreateForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     // await users;
-   validateSignup();
+   await validateSignup();
 
    try {
-    if (!errMsg) {
+    if (!errMsg && isOk) {
         await addNewUser({
             name: userState.userName,
             email: emailState.email,
@@ -215,7 +223,7 @@ export default function CreateForm() {
    } catch (err) {
     console.log(err)
    }
-   if (!errMsg) {
+   if (!errMsg && isOk) {
     userDispatch({
         type: 'user-name',
         value: ''
@@ -234,7 +242,6 @@ export default function CreateForm() {
     })
     
     setAuth({user: userState.userName});
-    setErrMsg(null)  
  }
 };
  useEffect(() => {

@@ -4,7 +4,7 @@
     "dev": "next",
     "build": "next build",
     "start": "next start",
-    "server": "json-server --port 3500 ./data/db.json"
+    "server": "json-server --port 1234 ./data/db.json"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.5.2",
