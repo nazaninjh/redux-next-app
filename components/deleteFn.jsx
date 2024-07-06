@@ -3,10 +3,12 @@
 import { useEffect, useState } from "react";
 import { useDeleteBlogMutation } from "../lib/features/blog/blogSlice";
 import { useRouter } from "next/navigation";
+import { useDeleteUserMutation } from "../lib/features/users/usersSlice";
 
-export default function DeleteFn({ id }) {
+export default function DeleteFn({ id, type }) {
   const [ confirmed, setConfirmed ] = useState(null);
   const [ deleteBlog, {isLoading} ] = useDeleteBlogMutation();
+  const [ deleteUser ] = useDeleteUserMutation();
   const router = useRouter();
   
   useEffect(() => {
@@ -23,13 +25,24 @@ export default function DeleteFn({ id }) {
     if (confirmed) {
       handleDel();
     } else if (confirmed === false && !isLoading) {
-      router.push('/blog');
+      if (type === 'blog') {
+        router.push('/blog');
+      } else if (type === 'user') {
+        router.push('/dashboard');
+      }
+      
     }
   }, [confirmed])
   const handleDel = async () => {
     try {
-      await deleteBlog(id);
-      router.push('/blog');
+      
+      if (type === 'blog') {
+        await deleteBlog(id);
+        router.push('/blog');
+      } else if (type === 'user') {
+        await deleteUser(id);
+        router.push('/dashboard');
+      }
     } catch (err) {
       console.log(err);
     }

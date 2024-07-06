@@ -18,7 +18,7 @@ export default function DashboardPage() {
   }, [Auth, router])
   
   return (
-    Auth.user ? <Dashboard Authuser={Auth.user}/> : <div>Dashboard Page</div>
+    Auth.user ? <Dashboard Authuser={Auth.user}/> : <p></p>
   )
 }
 
