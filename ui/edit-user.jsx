@@ -19,7 +19,8 @@ import { useRouter } from "next/navigation";;
 const EMAIL_REG = /^[a-zA-Z](?=.*@).{13,24}$/
 const PWD_REG = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!%$#]).{8,24}$/;
 const NAME_REG = /^[a-zA-Z][^0-9]{4,13}$/;
-
+const PHONE_REG = /[0-9]{10,15}/;
+const ADDRESS_REG = /^[a-zA-Z]{3,13}$/
 
 export default function EditUser({ id }) {
   const wantedUser = useSelector(state => selectUserById(state, id));
@@ -137,6 +138,108 @@ export default function EditUser({ id }) {
             
   } 
 
+  const phoneAction = (phoneState, action) => {
+    switch (action.type) {
+        case 'phone':
+            return {
+                ...phoneState,
+                phone: action.value
+            }
+        case 'phone-valid':
+            return {
+                ...phoneState,
+                phoneValid: action.value
+            }
+        
+        
+        case 'phone-focus':
+            return {
+                ...phoneState,
+                phoneFocus: action.value
+            }
+            default: 
+            return {
+                ...phoneState,
+            }
+    }        
+  };
+
+  const fullNameAction = (fullNameState, action) => {
+    switch (action.type) {
+        case 'fullName':
+            return {
+                ...fullNameState,
+                fullName: action.value
+            }
+        case 'fullName-valid':
+            return {
+                ...fullNameState,
+                fullNameValid: action.value
+            }
+        
+        
+        case 'fullName-focus':
+            return {
+                ...fullNameState,
+                fullNameFocus: action.value
+            }
+            default: 
+            return {
+                ...fullNameState,
+            }
+    }        
+  };
+
+
+  const addressAction = (addressState, action) => {
+    switch (action.type) {
+        case 'street':
+            return {
+                ...addressState,
+                street: action.value
+            }
+        case 'street-valid':
+            return {
+                ...addressState,
+                streetValid: action.value
+            }
+        
+        
+        case 'street-focus':
+            return {
+                ...addressState,
+                streetFocus: action.value
+            }
+        
+        case 'city':
+            return {
+                ...addressState,
+                city: action.value
+            }
+        case 'city-valid':
+            return {
+                ...addressState,
+                cityValid: action.value
+            }
+        
+        
+        case 'city-focus':
+            return {
+                ...addressState,
+                cityFocus: action.value
+            }
+            default: 
+            return {
+                ...addressState,
+            }
+    }        
+  };
+
+  const [fullNameState, fullNameDispatch] = useReducer(fullNameAction, {
+    fullName: '',
+    fullNameValid: false,
+    fullNameFocus: false
+  });
   const [userState, userDispatch] = useReducer(userAction, {
     userName: wantedUser? wantedUser.name : '',
     userNameValid: false,
@@ -156,6 +259,20 @@ export default function EditUser({ id }) {
     pwdmatch:  wantedUser? wantedUser.password: '',
     pwdmatchValid: false,
     pwdmatchFocus: false
+  });
+  const [phoneState, phoneDispatch] = useReducer(phoneAction, {
+    phone: wantedUser? wantedUser.phone: '',
+    phoneValid: false,
+    phoneFocus: false
+  });
+  const [addressState, addressDispatch] = useReducer(addressAction, {
+    street: wantedUser? wantedUser.address.street: '',
+    streetValid: false,
+    streetFocus: false,
+    city: wantedUser? wantedUser.address.city: '',
+    cityValid: false,
+    cityFocus: false
+    
   });
   useEffect(() => {
     if (userRef.current) {
@@ -193,6 +310,35 @@ export default function EditUser({ id }) {
     
   }, [pwdState.pwd, pwdmatchState.pwdmatch])
   
+
+  useEffect(() => {
+    phoneDispatch({
+        type: 'phone-valid',
+        value: PHONE_REG.test(phoneState.phone)
+    })
+  }, [phoneState.phone]);
+
+  useEffect(() => {
+    addressDispatch({
+        type: 'street-valid',
+        value: ADDRESS_REG.test(addressState.street)
+    })
+  }, [addressState.street]);
+
+  useEffect(() => {
+    addressDispatch({
+        type: 'city-valid',
+        value: ADDRESS_REG.test(addressState.city)
+    })
+  }, [addressState.city]);
+
+  useEffect(() => {
+    fullNameDispatch({
+        type: 'fullName-valid',
+        value: NAME_REG.test(fullNameState.fullName)
+    })
+  }, [fullNameState.fullName])
+
 
   const validateEdit = async () => {
     await data;
@@ -245,7 +391,12 @@ export default function EditUser({ id }) {
                 id: id,
                 name: userState.userName,
                 email: emailState.email,
-                password: pwdState.pwd
+                password: pwdState.pwd,
+                address: {
+                    street: addressState.street,
+                    city: addressState.city
+                },
+                phone: phoneState.phone,
             }).unwrap();
         }
        } catch (err) {
@@ -268,7 +419,22 @@ export default function EditUser({ id }) {
             type: 'email',
             value: ''
         })
-        
+        phoneDispatch({
+            type: 'phone',
+            value: ''
+        })
+        fullNameDispatch({
+            type: 'fullName',
+            value: ''
+        })
+        addressDispatch({
+            type: 'street',
+            value: ''
+        }),
+        addressDispatch({
+            type: 'city',
+            value: ''
+        })
         setAuth({user: userState.userName});
      }
    }
@@ -316,6 +482,34 @@ export default function EditUser({ id }) {
             <p>Must be between 4 to 13 characters.</p>
             <p>Should not contain numbers.</p>
          </div>
+         <label htmlFor="fullName">Fullname: </label>
+        <input type="text"
+         value={fullNameState.fullName}
+         onChange={e => fullNameDispatch({
+            type: 'fullName',
+            value: e.target.value
+         })}
+         onFocus={e => fullNameDispatch({
+            type: 'fullName-focus',
+            value: true
+         })}
+         onBlur={e => fullNameDispatch({
+            type: 'fullName-focus',
+            value: false
+         })}
+         id="fullName"
+         placeholder="exp: John Doe"
+         aria-describedby="fullNameNote" />
+         <div id="fullNameNote" 
+         className={
+            (fullNameState.fullName &&
+            fullNameState.fullNameFocus &&
+            !fullNameState.fullNameValid) ? style.instructions :
+            style.offScreen
+         }>
+            <p>Must be between 4 to 13 characters.</p>
+            <p>Should not contain numbers.</p>
+         </div>
          <label htmlFor="email">Email: </label>
          <input type="email"
          value={emailState.email}
@@ -343,6 +537,91 @@ export default function EditUser({ id }) {
          }>
             <p>Must be between 13 to 24 characters</p>
             <p>Email format must include an @ sign</p>
+         </div>
+         <label htmlFor="phone">Phone Number: </label>
+         <input type="number"
+         value={phoneState.phone}
+         onChange={e => phoneDispatch({
+            type: 'phone',
+            value: e.target.value
+         })}
+         onFocus={e => phoneDispatch({
+            type: 'phone-focus',
+            value: true
+         })}
+         onBlur={e => phoneDispatch({
+            type: 'phone-focus',
+            value: false
+         })}
+         id="phone"
+         placeholder="09154965411"
+         aria-describedby="phoneNote" />
+         <div id="phoneNote"
+         className={
+            (phoneState.phone &&
+                phoneState.phoneFocus &&
+                !phoneState.phoneValid) ? style.instructions :
+                style.offScreen
+         }>
+            <p>Must be between 10 to 15 characters</p>
+         </div>
+
+         <label htmlFor="city">City: </label>
+        <input type="text"
+         value={addressState.city}
+         onChange={e => addressDispatch({
+            type: 'city',
+            value: e.target.value
+         })}
+         onFocus={e => addressDispatch({
+            type: 'city-focus',
+            value: true
+         })}
+         onBlur={e => addressDispatch({
+            type: 'city-focus',
+            value: false
+         })}
+         id="city"
+         placeholder="exp: Tehran"
+         aria-describedby="addressNote" />
+         <div id="addressNote" 
+         className={
+            (addressState.city &&
+            addressState.cityFocus &&
+            !addressState.cityValid) ? style.instructions :
+            style.offScreen
+         }>
+            <p>Must be between 3 to 13 characters.</p>
+            <p>Should not contain numbers.</p>
+         </div>
+
+        <label htmlFor="street">Street: </label>
+        <input type="text"
+         value={addressState.street}
+         onChange={e => addressDispatch({
+            type: 'street',
+            value: e.target.value
+         })}
+         onFocus={e => addressDispatch({
+            type: 'street-focus',
+            value: true
+         })}
+         onBlur={e => addressDispatch({
+            type: 'street-focus',
+            value: false
+         })}
+         id="street"
+         placeholder="exp: Enghelab"
+         aria-describedby="addressNote" />
+         <div id="addressNote" 
+         className={
+            (addressState.street &&
+            addressState.streetFocus &&
+            !addressState.streetValid) ? style.instructions :
+            style.offScreen
+         }>
+            <p>Must be between 3 to 13 characters.</p>
+            <p>Should not contain numbers.</p>
          </div>
          <label htmlFor="pwd">Password: </label>
          <input type="text"

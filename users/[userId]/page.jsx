@@ -13,41 +13,25 @@ export default function Userpage({ params }) {
     isError,
     error
    } = useGetUserQuery(userId);
-   const {
-    data
-   }  = useGetAllBlogsQuery();
    const user = useSelector(state => selectUserById(state, userId));
-   const blogs = useSelector(state => selectAllBlogs(state));
-   const blogsByUser = blogs.filter(element => {
-    return element.userId === userId;
-   })
    let content;
    if (isSuccess) {
-    content = <section className={style.userDetails}>
+    content = (<section className={style.userDetails}>
     <h1>{user.name}</h1>
     <p>Details 👇</p>
     <p>id: {user.id}</p>
     <p>email: {user.email}</p>
     <Link href={`/blog/usersBlog/${userId}`}>users Posted Bogs</Link>
-    {/* get first three posts only */}
-      
-    </section>
+    </section>)
    } else if (isLoading) {
     content = <p>The Data Is Loading...</p>
    } else if (isError) {
     content = <section>Could not find user details!
-        <p>{error}</p>
+        <p>{error.data}</p>
     </section>
    }
-  return content
+   return (
+    content
+   )
+  
 }
-
-
-// export async function generateStaticParams() {
-//   const users = await getUsers();
-//   users.map(user => {
-//     return [
-//       { userId: user.id }
-//     ]
-//   })
-// }

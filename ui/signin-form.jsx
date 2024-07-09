@@ -112,20 +112,28 @@ export default function CreateSigninForm() {
   
 
   const validateSignin = () => {
-        users.map(user => {
-            if (user.name !== userState.userName && user.password
-                !== pwdState.pwd
-            ) {
-                console.log('User name and password not found!')
-                setErrMsg('User name and password not found!')
-            } else if (user.name !== userState.userName) {
-                setErrMsg('User name not found!')
-            } else if (user.password !== pwdState.pwd) {
-                setErrMsg('Password Incorrect!')
-            }
-        })
-    
-       
+        for (let user of users) {
+            let userName = user.username.toLowerCase();
+            let stateUserName = userState.userName.toLowerCase();
+            console.log(userName);
+            if (userName === stateUserName) {
+                
+                if (user.password === pwdState.pwd) {
+                        setErrMsg(false);
+                        break;
+                } else {
+                         setErrMsg('Password Incorrect!');
+                     }
+                     return;
+                } else if (userName !== stateUserName) {
+                     if (user.password !== pwdState.pwd) {
+                         setErrMsg('User does not exists!');
+                     } else {
+                         setErrMsg(false);
+                        break;
+                     }
+                 }
+        }
   };
 
     
@@ -133,26 +141,18 @@ export default function CreateSigninForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await users;
-    validateSignin();
+   validateSignin();
    if (!errMsg) {
-    users.map(user => {
-        const userName = user.name.toLowerCase();
-        if (userName === userState.userName && user.password === pwdState.pwd) {
-            userDispatch({
-                type: 'user-name',
-                value: ''
-            });
-            pwdDispatch({
-                type: 'pwd',
-                value: ''
-            });
-            setAuth({user: userState.userName.toLowerCase()});
-            setErrMsg(null)
-            
-        }
-    })
-    
+        userDispatch({
+            type: 'user-name',
+            value: ''
+        });
+        pwdDispatch({
+            type: 'pwd',
+            value: ''
+        });
+        setAuth({user: userState.userName.toLowerCase()});
+        setErrMsg(null)
     }
   
  };
@@ -169,7 +169,7 @@ export default function CreateSigninForm() {
         </p>
     
     <form className={style.form} onSubmit={handleSubmit}>
-        <label htmlFor="userName">Name: </label>
+        <label htmlFor="userName">Username: </label>
         <input type="text"
          ref={userRef}
          value={userState.userName}
