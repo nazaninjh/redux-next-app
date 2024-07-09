@@ -10,6 +10,8 @@ import { useState, useRef } from 'react';
 import Link from 'next/link';
 import { formatDistance } from 'date-fns';
 export default function BlogsByUser( { userId } ) {
+   // show only three blogs
+   // add pagination 
     const [ elipsisClicked, setElipsisClicked ] = useState(false);
     const optionsRef = useRef({current: 1});
     const toggleElipsis = (e) => {
@@ -22,9 +24,25 @@ export default function BlogsByUser( { userId } ) {
     const user = users.find(user => user.id === userId);
     const blogs = useSelector(state => selectAllBlogs(state));
     const blogsByUser = blogs.filter(blog => blog.userId === userId);
+    const latestBlogs = userId ? blogsByUser.slice(0, 3) :
+    blogs.slice(0, 6);
+    const paginationCount = userId ? Math.floor(blogsByUser.length / 3) :
+    Math.floor(blogs.length / 6);
+
+    // fix here
+
+    
+      // let pages = [];
+      // for (let i=0; i <= paginationCount; i++) {
+      //   let content = <span key={i}>{i}</span>l
+      //   pages.push(contentd)
+        
+      // }
+      // console.log(pages)
+    
     let content;
     if (userId) {
-        content = blogsByUser.map(blog => {
+        content = latestBlogs.map(blog => {
             return (
         <article key={blog.id}
            className={style.blog}>
@@ -43,10 +61,10 @@ export default function BlogsByUser( { userId } ) {
               <Link href={`/blog/edit/${blog.id}`}>Edit</Link>
               <Link href={`/blog/delete/${blog.id}`}>Delete</Link>
             </div>}
-            
+
             <h2>Posted by <Link href={`/users/${user.id}`}>{user.name}</Link></h2>
             <h4>{blog.title}</h4>
-            <p>{blog.content}</p>
+            <p>{blog.body}</p>
             <p>{formatDistance(new Date(blog.date), new Date())}</p>
             <Link href={`blog/${blog.id}`} key={blog.id}>
                 View Post
@@ -54,9 +72,10 @@ export default function BlogsByUser( { userId } ) {
           </article>
             )
         })
-    } else {
+    } else if (!userId) {
         content = blogs.map(blog => {
-            const user = users.find(user => user.id === blog.userId)
+          
+            const user = users.find(user => Number(user.id) === Number(blog.userId));
             return (
             <article key={blog.id}
            className={style.blog}>
@@ -76,9 +95,9 @@ export default function BlogsByUser( { userId } ) {
               <Link href={`/blog/delete/${blog.id}`}>Delete</Link>
             </div>}
             
-            <h2>Posted by <Link href={`/users/${user.id}`}>{user.name}</Link></h2>
+            {user && <h2>Posted by <Link href={`/users/${user.id}`}>{user.name}</Link></h2>}
             <h4>{blog.title}</h4>
-            <p>{blog.content}</p>
+            <p>{blog.body}</p>
             <p>{formatDistance(new Date(blog.date), new Date())}</p>
             <Link href={`blog/${blog.id}`} key={blog.id}>
                 View Post
@@ -87,6 +106,8 @@ export default function BlogsByUser( { userId } ) {
             )
         })
     }
-    return content
+    return (
+        content  
+    )
         
 }

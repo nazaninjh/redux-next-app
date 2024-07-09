@@ -1,11 +1,10 @@
 'use client'
 import Link from "next/link";
 import style from "./page.module.css"
-import './globals.css'
-import StoreProvider from "./storeProvider";
+import './globals.css';
 import { AuthProvider } from "./../context/AuthProvider";
 import { useState } from "react";
-
+import StoreProvider from './StoreProvider'
 
 
 export default function RootLayout({ children }) {

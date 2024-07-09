@@ -22,7 +22,7 @@ export default function BlogPage({ params }) {
   if (isSuccess) {
     content = <section>
       <h1>{blog.title}</h1>
-      <p>{blog.content}</p>
+      <p>{blog.body}</p>
       <p>Author: {user && user.name}</p>
     </section>
 } else if (isLoading) {

@@ -1,6 +1,6 @@
 import CreateForm from './../../ui/create-form'
 
-export const matadata = {
+export const metadata = {
   title: 'Sign up page'
 }
 

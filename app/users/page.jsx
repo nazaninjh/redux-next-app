@@ -9,6 +9,7 @@ import style from './../page.module.css'
 
 export default function UsersPage() {
     const {
+        data,
         isLoading,
         isSuccess,
         isError,

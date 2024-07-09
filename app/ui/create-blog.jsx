@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 import style from './../page.module.css'
 import { selectAllBlogs, useAddBlogMutation, useGetAllBlogsQuery } from "./../../lib/features/blog/blogSlice";
 
-const TITLE_REG = /^[a-zA-Z0-9_].{4,20}$/;
+const TITLE_REG = /^[a-zA-Z0-9_].{4,30}$/;
 const CONTENT_REG = /^[a-zA-Z0-9_].{10,150}$/;
 
 export default function CreateBlog() {
@@ -109,14 +109,14 @@ export default function CreateBlog() {
     setErrMsg(null);
  
     blogs.map(blog => {
-      if (blog.title === fieldState.title && blog.content === fieldState.blogContent
+      if (blog.title === fieldState.title && blog.body === fieldState.blogContent
       ) {
           setErrMsg('Blog Already Posted!');
           setIsOk(false);
-      } else if (blog.content === fieldState.blogContent) {
+      } else if (blog.body === fieldState.blogContent) {
           setErrMsg('Content Already Exists!');
           setIsOk(false);
-      } else if (blog.title !== fieldState.title && blog.content !== fieldState.blogContent) {
+      } else if (blog.title !== fieldState.title && blog.body !== fieldState.blogContent) {
         setIsOk(true);
         setErrMsg(null);
       }
@@ -130,14 +130,16 @@ export default function CreateBlog() {
     
     await blogValidation();
     let date = new Date().toISOString();
+    const idCount = blogs.length;
       try {
         if (!errMsg && status === 'idle' && isOk) {
           setStatus('pending');
           await addBlog({
             userId: fieldState.author,
+            id: idCount + 1,
             title: fieldState.title,
-            content: fieldState.blogContent,
             date,
+            body: fieldState.blogContent,
           }).unwrap();
         }   
       } catch (err) {
