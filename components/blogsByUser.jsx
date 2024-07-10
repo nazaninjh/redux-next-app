@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux';
 import style from './../app/page.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEllipsisV } from "@fortawesome/free-solid-svg-icons";
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect, useMemo } from 'react';
 import Link from 'next/link';
 import { formatDistance } from 'date-fns';
 export default function BlogsByUser( { userId } ) {
@@ -24,27 +24,33 @@ export default function BlogsByUser( { userId } ) {
     const user = users.find(user => user.id === userId);
     const blogs = useSelector(state => selectAllBlogs(state));
     const blogsByUser = blogs.filter(blog => blog.userId === userId);
-    const latestBlogs = userId ? blogsByUser.slice(0, 3) :
-    blogs.slice(0, 6);
+   console.log(blogsByUser)
     const paginationCount = userId ? Math.floor(blogsByUser.length / 3) :
     Math.floor(blogs.length / 6);
-
-    // fix here
-
-    
-      // let pages = [];
-      // for (let i=0; i <= paginationCount; i++) {
-      //   let content = <span key={i}>{i}</span>l
-      //   pages.push(contentd)
-        
-      // }
-      // console.log(pages)
-    
+    const [pageNum, setPageNum] = useState(1);
+    console.log(pageNum)
+    let pages = [];
+    for (let i=1; i <= paginationCount; i++) {
+        let content = i;
+        pages.push(content)   
+    };
+    let latestBlogs = userId ? blogsByUser.slice(0, 3) :
+    blogs.slice(0, 6);
+    const lastBlogIndex = userId ? pageNum * 3 : 
+    pageNum * 6;
+    const firstBlogIndex = userId ? lastBlogIndex - 3 : 
+    lastBlogIndex - 6;
+    latestBlogs =  userId ? blogsByUser.slice(firstBlogIndex, lastBlogIndex) :
+    blogs.slice(firstBlogIndex, lastBlogIndex);
+    const handlePaginationClick = (e) => {
+      const num = (e.target.id);
+      setPageNum(num);
+    }
     let content;
     if (userId) {
         content = latestBlogs.map(blog => {
-            return (
-        <article key={blog.id}
+        return (
+          <article key={blog.id}
            className={style.blog}>
             <span>
               <button 
@@ -70,10 +76,10 @@ export default function BlogsByUser( { userId } ) {
                 View Post
             </Link>
           </article>
-            )
+        )
         })
     } else if (!userId) {
-        content = blogs.map(blog => {
+        content = latestBlogs.map(blog => {
           
             const user = users.find(user => Number(user.id) === Number(blog.userId));
             return (
@@ -107,7 +113,21 @@ export default function BlogsByUser( { userId } ) {
         })
     }
     return (
-        content  
+        <>
+        {content}
+        <section className={style.paginationCont}>
+        {pages.map(pageNum => {
+            return (
+              <button key={pageNum}
+              id={pageNum}
+              onClick={(e) => handlePaginationClick(e)}
+              className={style.paginationBtn}>
+                {pageNum}
+            </button>
+            )
+        })}
+        </section>
+        </>
     )
         
 }

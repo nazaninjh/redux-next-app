@@ -205,7 +205,7 @@ export default function CreateSigninForm() {
          })}
          id="pwd"/>
          <button>Sign in</button>
-         <div>Already have an account? <Link href='signup'>Sign in</Link></div>
+         <div>Don't have an account? <Link href='signup'>Register</Link></div>
          </form>
     </section>
     

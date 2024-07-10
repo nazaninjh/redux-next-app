@@ -159,4 +159,16 @@
   color: white;
 }
 
-
+.paginationCont {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.3rem;
+}
+.paginationBtn {
+  padding: 0.1rem;
+  border-radius: 1rem;
+  width: 1.5rem;
+  cursor: pointer;
+}

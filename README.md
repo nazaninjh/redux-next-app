@@ -6,4 +6,8 @@
 
 // add edit user btn to user routes
 
-// add pagination buttons
+// add back and forth pagintion icons
+
+// style usersBlog
+
+// finish profile page
