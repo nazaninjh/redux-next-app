@@ -1,6 +1,6 @@
 
 
-export const matadata = {
+export const metadata = {
     title: 'Users',
     description: 'This page contains the list of users'
 }
