@@ -4,10 +4,8 @@ import { getUsers } from './../../../lib/getUsersAsync'
 // so we don't have to make the comp client-side
 export const generateMetadata = async ({params}) => {
   const users = await getUsers();
-  const userId = params.userId;
-  const user = await users.find(user => {
-    return user.id == userId
-  });
+  const userId = Number(params.userId);
+  const user = users.find(user => Number(user.id) === userId);
   if (user) {
     return {
       title: user.name

@@ -1,5 +1,5 @@
 'use client'
-import AuthContext, { AuthProvider } from "./../../context/AuthProvider";
+import AuthContext from "./../../context/AuthProvider";
 import CreateForm from "./../ui/create-form";
 import { useContext, useEffect } from "react";
 import { useRouter } from "next/navigation";

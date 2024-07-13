@@ -6,11 +6,16 @@
   height: 100%;
   display: flex;
   flex-direction: column;
-  gap: 0.7rem;
-  background-color: var(--bg-gray-clr);
-  color: white;
+  background-color: white;
+  color: gray;
+  font-family: 'Courier New', Courier, monospace;
 }
-
+.submitBtn {
+  margin: 0.7rem auto;
+  padding: 0.5rem 2rem;
+  width: max-content;
+  cursor: pointer;
+}
 .form {
   display: flex;
   flex-direction: column;
@@ -19,7 +24,8 @@
   max-width: 55vw;
   padding: 1rem;
   box-shadow: 1px 1px 4px white;
-  background-color: var(--form-bg-clr);
+  background-color: var(--bg-gray-clr);
+  color: white;
 }
 
 .form > fieldset {
@@ -30,58 +36,36 @@
   min-width: 50vw;
   padding: 1rem;
   box-shadow: 1px 1px 4px white;
-  background-color: var(--form-bg-clr);
+  background-color: var(--bg-gray-clr);
 }
 .form > fieldset > legend {
   font-size: large;
-  background-color: var(--form-bg-clr);
+  background-color: var(--bg-gray-clr);
 }
+
 .offScreen {
   position: absolute;
-  left: -999px;
+  left: -99999px;
 }
 
 .instructions {
   width: inherit;
-  background-color: rgb(254, 149, 166);
+  background-color: rgb(89, 89, 254);
   padding: 0.5rem;
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
   align-items: start;
+  border-radius: 0.5rem;
+  border-top-left-radius: 0;
 }
 
-.users {
-  width: 100%;
-  list-style: none;
-  display: flex;
-  justify-content: space-around;
-  flex-wrap: wrap;
-  text-align: center;
-  text-transform: capitalize;
-  margin: 3rem auto;
-  padding: 0;
 
-}
 .hide {
   display: none;
   z-index: 2;
 }
-.users a {
-  padding: 1rem;
-  background-color: rgb(251, 251, 41);
-  color: white;
-  box-shadow: 2.5px 2px 2.5px rgb(73, 73, 251);
-  border-top-right-radius: 0.8rem;
-}
-.userDetails {
-  text-transform: capitalize;
-  padding: 1rem;
-  margin: 2.5rem auto;
-  background-color: var(--form-bg-clr);
-  box-shadow: 2px 2px 2.5px rgb(122, 121, 121);
-  max-width: 20rem;
-}
+
 /* .errMsg {
 
 } */
@@ -89,8 +73,7 @@
   display: flex;
   flex-direction: column;
   text-align: start;
-  background-color: rgb(248, 137, 156);
-  color: white;
+  background-color: var(--bg-gray-clr);
   gap: 0.7rem;
   max-width: 7rem;
   padding: 0.5rem;
@@ -99,49 +82,78 @@
   border-top-left-radius: 0;
   position: absolute;
   top: 2.3rem;
-  left: 10rem;
+  left: 27rem;
   z-index: 2;
 }
+.localBlogNav a {
+  color: white !important;
+}
 .localBlogNav  a:hover {
-  color: var(--bg-gray-clr);
+  color:wheat;
 }
 
-.blogContainer {
+.cardContainer {
   display: flex;
   flex-direction: column;
+  align-items: center;
+  justify-content: center;
   gap: 1rem;
   padding: 2rem;
-  flex: 1;
+  max-width: 100%;
 }
 
-.blog {
+.card {
   display:  flex;
   flex-direction: column;
   align-items: center;
-  border: 2px solid var(--form-bg-clr);
-  box-shadow: 1px 2px 2.5px var(--form-bg-clr);
+  border: 3px solid white;
+  box-shadow: 2px 2px 8px var(--bg-gray-clr);
+  background-color: var(--bg-gray-clr);
+  color: white;
   border-radius: 0.2rem;
   padding: 1rem;
   position: relative;
+  width: 80%;
 }
 
-.blog > a {
-  border: 2px solid var(--form-bg-clr);
+
+.largeCard {
+  display:  flex;
+  flex-direction: column;
+  align-items: center;
+  border: 2px solid white;
+  box-shadow: 1px 2px 2.5px var(--bg-gray-clr);
+  background-color: var(--bg-gray-clr);
+  color: white;
   border-radius: 0.2rem;
-  padding: 0.6rem 0.8rem ;
-  transition: background-color 1000ms;
+  padding: 1rem;
+  position: relative;
+  font-size: large;
+  min-width: 60%;
 }
-.blog > a:hover {
-  background-color: rgb(86, 86, 86);
+.largeCard .btnsCont {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+}
+.largeCard a {
+  color: white;
+  box-shadow: 2px 2px 5px white;
+  padding: 0.5rem 1rem;
+}
+.largeCard a:hover {
+  color: wheat;
+}
+.card a {
   color: white;
 }
-.blog  button {
-  position: absolute;
-  right: 0.7rem;
-  background-color: transparent;
-  border: none;
-  cursor: pointer;
-  width: 2rem;
+.card a:visited {
+  color: white;
+}
+.card a:hover {
+  color: wheat;
 }
 .optionsIconNav {
   position: absolute;
@@ -158,6 +170,66 @@
 .optionsIconNav a:visited {
   color: white;
 }
+.card .optionsBtn {
+  position: absolute;
+  right: 0.7rem;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  width: 2rem;
+}
+
+
+
+.skeletonCard {
+  display:  flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 0.2rem;
+  width: 80vw;
+  padding: 1rem;
+  position: relative;
+  border-style: solid;
+  border-width: 0.3rem;
+  opacity: 0.5;
+  animation-name: borderColorChange;
+  animation-duration: 2000ms;
+  animation-iteration-count: infinite;
+  
+}
+
+.skeletonCard > p {
+  height: 1rem;
+  width: 100%;
+  opacity: 0.5;
+  animation-name: skeletonColorChange;
+  animation-duration: 2000ms;
+  animation-iteration-count: infinite;
+  animation-timing-function: steps(3);
+}
+.skeletonCard > p:nth-child(3) {
+  height: 3rem;
+}
+.skeletonCard > p:nth-child(4) {
+  width: 3rem;
+}
+.skeletonCard > p:nth-child(5) {
+  width: 5rem;
+  height: 1rem;
+}
+.userSkeleton {
+  width: 60% !important;
+}
+@keyframes skeletonColorChange {
+  0%{background-color: var(--bg-gray-clr);}
+  100%{background-color: rgb(134, 134, 134);}
+}
+@keyframes borderColorChange {
+  0%{border-color: var(--bg-gray-clr);}
+  100%{border-color: rgb(134, 134, 134);}
+}
+
+
 
 .paginationCont {
   width: 100%;
@@ -172,3 +244,4 @@
   width: 1.5rem;
   cursor: pointer;
 }
+

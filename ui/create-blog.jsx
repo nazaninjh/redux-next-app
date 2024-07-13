@@ -197,7 +197,11 @@ export default function CreateBlog() {
           name="blogContent"
           onChange={e => setValues(e, e.target.name)} />
         </fieldset>
-        <button disabled={!canSave}>Upload Blog</button>
+        <button 
+        className={style.submitBtn}
+        disabled={!canSave}>
+          Upload Blog
+        </button>
       
     </form>
     </section>

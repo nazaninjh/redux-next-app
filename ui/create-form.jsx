@@ -358,12 +358,14 @@ export default function CreateForm() {
     e.preventDefault();
     // await users;
    await validateSignup();
+   // make it a string
    const idCount = users.length;
    try {
     if (!errMsg && isOk) {
         await addNewUser({
-            id: idCount + 1,
-            name: userState.userName,
+            id: (idCount + 1).toString(),
+            name: fullNameState.fullName,
+            username: userState.userName,
             email: emailState.email,
             password: pwdState.pwd,
             address: {
@@ -425,236 +427,242 @@ export default function CreateForm() {
         </p>
     
     <form className={style.form} onSubmit={handleSubmit}>
-        <label htmlFor="userName">Username: </label>
-        <input type="text"
-         ref={userRef}
-         value={userState.userName}
-         onChange={e => userDispatch({
-            type: 'user-name',
-            value: e.target.value
-         })}
-         onFocus={e => userDispatch({
-            type: 'user-focus',
-            value: true
-         })}
-         onBlur={e => userDispatch({
-            type: 'user-focus',
-            value: false
-         })}
-         id="userName"
-         placeholder="exp: John"
-         aria-describedby="userNote" />
-         <div id="userNote" 
-         className={
-            (userState.userName &&
-            userState.userNameFocus &&
-            !userState.userNameValid) ? style.instructions :
-            style.offScreen
-         }>
-            <p>Must be between 3 to 13 characters.</p>
-            <p>Should not contain numbers.</p>
-         </div>
-
-        <label htmlFor="fullName">Fullname: </label>
-        <input type="text"
-         value={fullNameState.fullName}
-         onChange={e => fullNameDispatch({
-            type: 'fullName',
-            value: e.target.value
-         })}
-         onFocus={e => fullNameDispatch({
-            type: 'fullName-focus',
-            value: true
-         })}
-         onBlur={e => fullNameDispatch({
-            type: 'fullName-focus',
-            value: false
-         })}
-         id="fullName"
-         placeholder="exp: John Doe"
-         aria-describedby="fullNameNote" />
-         <div id="fullNameNote" 
-         className={
-            (fullNameState.fullName &&
-            fullNameState.fullNameFocus &&
-            !fullNameState.fullNameValid) ? style.instructions :
-            style.offScreen
-         }>
-            <p>Must be between 4 to 13 characters.</p>
-            <p>Should not contain numbers.</p>
-         </div>
-
-         <label htmlFor="email">Email: </label>
-         <input type="email"
-         value={emailState.email}
-         onChange={e => emailDispatch({
-            type: 'email',
-            value: e.target.value
-         })}
-         onFocus={e => emailDispatch({
-            type: 'email-focus',
-            value: true
-         })}
-         onBlur={e => emailDispatch({
-            type: 'email-focus',
-            value: false
-         })}
-         id="email"
-         placeholder="exp: John.doe@gmail.com"
-         aria-describedby="emailNote" />
-         <div id="emailNote"
-         className={
-            (emailState.email &&
-                emailState.emailFocus &&
-                !emailState.emailValid) ? style.instructions :
+        <fieldset>
+            <legend>Personal Info</legend>
+            <label htmlFor="userName">Username: </label>
+            <input type="text"
+             ref={userRef}
+             value={userState.userName}
+             onChange={e => userDispatch({
+                type: 'user-name',
+                value: e.target.value
+             })}
+             onFocus={e => userDispatch({
+                type: 'user-focus',
+                value: true
+             })}
+             onBlur={e => userDispatch({
+                type: 'user-focus',
+                value: false
+             })}
+             id="userName"
+             placeholder="exp: John"
+             aria-describedby="userNote" />
+             <div id="userNote"
+             className={
+                (userState.userName &&
+                userState.userNameFocus &&
+                !userState.userNameValid) ? style.instructions :
                 style.offScreen
-         }>
-            <p>Must be between 13 to 24 characters</p>
-            <p>Email format must include an @ sign</p>
-         </div>
-         <label htmlFor="phone">Phone Number: </label>
-         <input type="number"
-         value={phoneState.phone}
-         onChange={e => phoneDispatch({
-            type: 'phone',
-            value: e.target.value
-         })}
-         onFocus={e => phoneDispatch({
-            type: 'phone-focus',
-            value: true
-         })}
-         onBlur={e => phoneDispatch({
-            type: 'phone-focus',
-            value: false
-         })}
-         id="phone"
-         placeholder="09154965411"
-         aria-describedby="phoneNote" />
-         <div id="phoneNote"
-         className={
-            (phoneState.phone &&
-                phoneState.phoneFocus &&
-                !phoneState.phoneValid) ? style.instructions :
+             }>
+                <p>Must be between 3 to 13 characters.</p>
+                <p>Should not contain numbers.</p>
+             </div>
+            <label htmlFor="fullName">Fullname: </label>
+            <input type="text"
+             value={fullNameState.fullName}
+             onChange={e => fullNameDispatch({
+                type: 'fullName',
+                value: e.target.value
+             })}
+             onFocus={e => fullNameDispatch({
+                type: 'fullName-focus',
+                value: true
+             })}
+             onBlur={e => fullNameDispatch({
+                type: 'fullName-focus',
+                value: false
+             })}
+             id="fullName"
+             placeholder="exp: John Doe"
+             aria-describedby="fullNameNote" />
+             <div id="fullNameNote"
+             className={
+                (fullNameState.fullName &&
+                fullNameState.fullNameFocus &&
+                !fullNameState.fullNameValid) ? style.instructions :
                 style.offScreen
-         }>
-            <p>Must be between 10 to 15 characters</p>
-         </div>
+             }>
+                <p>Must be between 4 to 13 characters.</p>
+                <p>Should not contain numbers.</p>
+             </div>
+             <label htmlFor="email">Email: </label>
+             <input type="email"
+             value={emailState.email}
+             onChange={e => emailDispatch({
+                type: 'email',
+                value: e.target.value
+             })}
+             onFocus={e => emailDispatch({
+                type: 'email-focus',
+                value: true
+             })}
+             onBlur={e => emailDispatch({
+                type: 'email-focus',
+                value: false
+             })}
+             id="email"
+             placeholder="exp: John.doe@gmail.com"
+             aria-describedby="emailNote" />
+             <div id="emailNote"
+             className={
+                (emailState.email &&
+                    emailState.emailFocus &&
+                    !emailState.emailValid) ? style.instructions :
+                    style.offScreen
+             }>
+                <p>Must be between 13 to 24 characters</p>
+                <p>Email format must include an @ sign</p>
+             </div>
+             <label htmlFor="phone">Phone Number: </label>
+             <input type="number"
+             value={phoneState.phone}
+             onChange={e => phoneDispatch({
+                type: 'phone',
+                value: e.target.value
+             })}
+             onFocus={e => phoneDispatch({
+                type: 'phone-focus',
+                value: true
+             })}
+             onBlur={e => phoneDispatch({
+                type: 'phone-focus',
+                value: false
+             })}
+             id="phone"
+             placeholder="09154965411"
+             aria-describedby="phoneNote" />
+             <div id="phoneNote"
+             className={
+                (phoneState.phone &&
+                    phoneState.phoneFocus &&
+                    !phoneState.phoneValid) ? style.instructions :
+                    style.offScreen
+             }>
+                <p>Must be between 10 to 15 characters</p>
+             </div>
+        </fieldset>
 
-        <label htmlFor="city">City: </label>
-        <input type="text"
-         value={addressState.city}
-         onChange={e => addressDispatch({
-            type: 'city',
-            value: e.target.value
-         })}
-         onFocus={e => addressDispatch({
-            type: 'city-focus',
-            value: true
-         })}
-         onBlur={e => addressDispatch({
-            type: 'city-focus',
-            value: false
-         })}
-         id="city"
-         placeholder="exp: Tehran"
-         aria-describedby="addressNote" />
-         <div id="addressNote" 
-         className={
-            (addressState.city &&
-            addressState.cityFocus &&
-            !addressState.cityValid) ? style.instructions :
-            style.offScreen
-         }>
-            <p>Must be between 3 to 13 characters.</p>
-            <p>Should not contain numbers.</p>
-         </div>
-
-        <label htmlFor="street">Street: </label>
-        <input type="text"
-         value={addressState.street}
-         onChange={e => addressDispatch({
-            type: 'street',
-            value: e.target.value
-         })}
-         onFocus={e => addressDispatch({
-            type: 'street-focus',
-            value: true
-         })}
-         onBlur={e => addressDispatch({
-            type: 'street-focus',
-            value: false
-         })}
-         id="street"
-         placeholder="exp: Enghelab"
-         aria-describedby="addressNote" />
-         <div id="addressNote" 
-         className={
-            (addressState.street &&
-            addressState.streetFocus &&
-            !addressState.streetValid) ? style.instructions :
-            style.offScreen
-         }>
-            <p>Must be between 3 to 13 characters.</p>
-            <p>Should not contain numbers.</p>
-         </div>
-
-         <label htmlFor="pwd">Password: </label>
-         <input type="password"
-         value={pwdState.pwd}
-         onChange={e => pwdDispatch({
-            type: 'pwd',
-            value: e.target.value
-         })}
-         onFocus={e => pwdDispatch({
-            type: 'pwd-focus',
-            value: true
-         })}
-         onBlur={e => pwdDispatch({
-            type: 'pwd-focus',
-            value: false
-         })}
-         id="pwd"
-         aria-describedby="pwdNote" />
-         <div id="pwdNote"
-         className={
-            (pwdState.pwd &&
-                pwdState.pwdFocus &&
-                !pwdState.pwdValid) ? style.instructions :
+        <fieldset>
+            <legend>Address</legend>
+            <label htmlFor="city">City: </label>
+            <input type="text"
+             value={addressState.city}
+             onChange={e => addressDispatch({
+                type: 'city',
+                value: e.target.value
+             })}
+             onFocus={e => addressDispatch({
+                type: 'city-focus',
+                value: true
+             })}
+             onBlur={e => addressDispatch({
+                type: 'city-focus',
+                value: false
+             })}
+             id="city"
+             placeholder="exp: Tehran"
+             aria-describedby="addressNote" />
+             <div id="addressNote"
+             className={
+                (addressState.city &&
+                addressState.cityFocus &&
+                !addressState.cityValid) ? style.instructions :
                 style.offScreen
-         }>
-            <p>Must be between 8 to 24 characters</p>
-            <p>Must include at least a number, a lower case letter
-                ,an upper case letter, and at least a character from the following list: 
-            </p>
-            <p>! % $ #</p>
-         </div>
-         <label htmlFor="pwdMatch">Confirm password: </label>
-         <input type="password"
-         value={pwdmatchState.pwdmatch}
-         onChange={e => pwdmatchDispatch({
-            type: 'pwdmatch',
-            value: e.target.value
-         })}
-         onFocus={e => pwdmatchDispatch({
-            type: 'pwdmatch-focus',
-            value: true
-         })}
-         onBlur={e => pwdmatchDispatch({
-            type: 'pwdmatch-focus',
-            value: false
-         })}
-         id="pwdMatch"
-         aria-describedby="pwdMatchNote" />
-         <div id="pwdMatchNote"
-         className={
-            (pwdmatchState.pwdmatch &&
-                pwdmatchState.pwdmatchFocus &&
-                !pwdmatchState.pwdmatchValid) ? style.instructions :
+             }>
+                <p>Must be between 3 to 13 characters.</p>
+                <p>Should not contain numbers.</p>
+             </div>
+            <label htmlFor="street">Street: </label>
+            <input type="text"
+             value={addressState.street}
+             onChange={e => addressDispatch({
+                type: 'street',
+                value: e.target.value
+             })}
+             onFocus={e => addressDispatch({
+                type: 'street-focus',
+                value: true
+             })}
+             onBlur={e => addressDispatch({
+                type: 'street-focus',
+                value: false
+             })}
+             id="street"
+             placeholder="exp: Enghelab"
+             aria-describedby="addressNote" />
+             <div id="addressNote"
+             className={
+                (addressState.street &&
+                addressState.streetFocus &&
+                !addressState.streetValid) ? style.instructions :
                 style.offScreen
-         }>
-            <p>Must match the previously provided password</p>
-         </div>
-         <button>Sign up</button>
+             }>
+                <p>Must be between 3 to 13 characters.</p>
+                <p>Should not contain numbers.</p>
+             </div>
+        </fieldset>
+
+         <fieldset>
+            <legend>Authentication</legend>
+             <label htmlFor="pwd">Password: </label>
+             <input type="password"
+             value={pwdState.pwd}
+             onChange={e => pwdDispatch({
+                type: 'pwd',
+                value: e.target.value
+             })}
+             onFocus={e => pwdDispatch({
+                type: 'pwd-focus',
+                value: true
+             })}
+             onBlur={e => pwdDispatch({
+                type: 'pwd-focus',
+                value: false
+             })}
+             id="pwd"
+             aria-describedby="pwdNote" />
+             <div id="pwdNote"
+             className={
+                (pwdState.pwd &&
+                    pwdState.pwdFocus &&
+                    !pwdState.pwdValid) ? style.instructions :
+                    style.offScreen
+             }>
+                <p>Must be between 8 to 24 characters</p>
+                <p>Must include at least a number, a lower case letter
+                    ,an upper case letter, and at least a character from the following list:
+                </p>
+                <p>! % $ #</p>
+             </div>
+             <label htmlFor="pwdMatch">Confirm password: </label>
+             <input type="password"
+             value={pwdmatchState.pwdmatch}
+             onChange={e => pwdmatchDispatch({
+                type: 'pwdmatch',
+                value: e.target.value
+             })}
+             onFocus={e => pwdmatchDispatch({
+                type: 'pwdmatch-focus',
+                value: true
+             })}
+             onBlur={e => pwdmatchDispatch({
+                type: 'pwdmatch-focus',
+                value: false
+             })}
+             id="pwdMatch"
+             aria-describedby="pwdMatchNote" />
+             <div id="pwdMatchNote"
+             className={
+                (pwdmatchState.pwdmatch &&
+                    pwdmatchState.pwdmatchFocus &&
+                    !pwdmatchState.pwdmatchValid) ? style.instructions :
+                    style.offScreen
+             }>
+                <p>Must match the previously provided password</p>
+             </div>
+         </fieldset>
+         <button className={style.submitBtn}>Sign up</button>
          <div>Already have an account? <Link href='signin'>Sign in</Link></div>
 
     </form>
