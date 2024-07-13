@@ -679,7 +679,7 @@ export default function EditUser({ id }) {
          }>
             <p>Must match the previously provided password</p>
          </div>
-         <button>Edit</button>
+         <button className={style.submitBtn}>Edit</button>
          <div>Already have an account? <Link href='signin'>Sign in</Link></div>
 
     </form>

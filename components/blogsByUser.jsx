@@ -23,12 +23,12 @@ export default function BlogsByUser( { userId } ) {
     const users = useSelector(state => selectAllUsers(state));
     const user = users.find(user => user.id === userId);
     const blogs = useSelector(state => selectAllBlogs(state));
-    const blogsByUser = blogs.filter(blog => blog.userId === userId);
-   console.log(blogsByUser)
+    const blogsByUser = blogs.filter(blog => {
+      return Number(blog.userId) === Number(userId)
+    });
     const paginationCount = userId ? Math.floor(blogsByUser.length / 3) :
     Math.floor(blogs.length / 6);
     const [pageNum, setPageNum] = useState(1);
-    console.log(pageNum)
     let pages = [];
     for (let i=1; i <= paginationCount; i++) {
         let content = i;
@@ -46,14 +46,21 @@ export default function BlogsByUser( { userId } ) {
       const num = (e.target.id);
       setPageNum(num);
     }
+    console.log(blogsByUser)
     let content;
-    if (userId) {
+    if (userId && blogsByUser.length === 0) {
+      content = <div className='no-blogs-div'>
+        <p>No blogs Posted yet!</p>
+        <Link href='/blog/create'>Post a blog</Link>
+      </div>
+    } else if (userId) {
         content = latestBlogs.map(blog => {
         return (
           <article key={blog.id}
-           className={style.blog}>
+           className={style.card}>
             <span>
               <button 
+              className={style.optionsBtn}
               id={blog.id}
               onClick={(e) => toggleElipsis(e)}>
                 <FontAwesomeIcon icon={faEllipsisV}
@@ -84,9 +91,10 @@ export default function BlogsByUser( { userId } ) {
             const user = users.find(user => Number(user.id) === Number(blog.userId));
             return (
             <article key={blog.id}
-           className={style.blog}>
+           className={style.card}>
             <span>
               <button 
+              className={style.optionsBtn}
               id={blog.id}
               onClick={(e) => toggleElipsis(e)}>
                 <FontAwesomeIcon icon={faEllipsisV}

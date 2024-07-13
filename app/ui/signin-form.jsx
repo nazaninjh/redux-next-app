@@ -112,10 +112,10 @@ export default function CreateSigninForm() {
   
 
   const validateSignin = () => {
+        // setErrMsg(false);
         for (let user of users) {
             let userName = user.username.toLowerCase();
             let stateUserName = userState.userName.toLowerCase();
-            console.log(userName);
             if (userName === stateUserName) {
                 
                 if (user.password === pwdState.pwd) {
@@ -204,7 +204,7 @@ export default function CreateSigninForm() {
             value: false
          })}
          id="pwd"/>
-         <button>Sign in</button>
+         <button className={style.submitBtn}>Sign in</button>
          <div>Don't have an account? <Link href='signup'>Register</Link></div>
          </form>
     </section>

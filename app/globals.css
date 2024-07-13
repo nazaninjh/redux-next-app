@@ -1,18 +1,18 @@
 :root {
   --bg-gray-clr: rgb(23, 23, 23);
-  --form-bg-clr: rgb(46, 46, 176);
-}
-body {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  width: 100%;
-  height: 100%;
+  --blue-clr: rgb(24, 24, 163);
+  --main-orange: rgb(255, 102, 0);
+  --anchor-color: rgb(62, 62, 62);
+  --nav-color: rgb(225, 224, 224);
 }
 input {
   padding: 0.3rem 0.5rem;
   border: none;
   box-shadow: 1px 1px 2px white;
+}
+input:focus {
+  outline: none;
+  box-shadow: 0px 1px 8px var(--blue-clr);
 }
 a {
   text-decoration: none;
@@ -21,22 +21,147 @@ a {
 }
 
 a:visited {
-  color: pink;
+  color: white;
 }
 a:hover {
-  color: rgb(228, 128, 144);
+  color: wheat;
 }
 
 .global-navbar {
   display: flex;
   flex-wrap: wrap;
-  gap: 1rem;
-  padding: 1rem;
-  background-color: var(--form-bg-clr);
-  box-shadow: 0 2px 2.5px rgb(90, 90, 90);
+  justify-content: center;
+  gap: 2.5rem;
+  padding: 0.5rem;
+  background-color: var(--nav-color);
+  text-transform: uppercase;
+  box-shadow: 0 2px 2px rgb(90, 90, 90);
   position: relative;
 }
+.global-navbar a {
+  color: var(--anchor-color);
+  padding: 0.3rem 0px;
+}
+.global-navbar a:visited {
+  color: var(--anchor-color);
+}
+.global-navbar > .gp-one {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.5rem;
+}
 
+.global-navbar > .gp-two {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  padding: 0.5rem;
+}
+
+.global-navbar .nav-signup-gp {
+  padding: 0.3rem 1rem;
+  border: 1px var(--anchor-color) solid;
+  border-radius: 1rem;
+}
+.top-section {
+  background-color: var(--nav-color);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 1.5rem;
+}
+
+.top-section > p {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 0;
+  text-align: center;
+  color: black;
+}
+.top-section p:first-child {
+  font-size: 40px;
+  font-weight: bold;
+  letter-spacing: 0.7rem;
+}
+.home-search-section {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between; 
+  align-items: center;
+  padding: 1rem 4rem;
+  background-color: var(--main-orange);
+  color: black;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+.home-search-section  > * {
+  width: fit-content;
+  height: fit-content;
+  margin: 0;
+  padding: 0.5rem;
+}
+
+.home-search-section > .search-cont > input {
+  border: var(--anchor-color) solid 1px;
+  outline: none;
+  border-radius: 1rem;
+  position: relative;
+  transform: translateX(35px);
+  z-index: 1;;
+}
+.home-search-section .search-cont > button  {
+  background-color: black;
+  color: white;
+  border: none;
+  border-radius: 1rem;
+  position: relative;
+  padding: 0.5rem;
+  width: 5rem;
+  z-index: 2;
+  font-weight: bold;
+  font-size: 10px;
+}
+.home-blogs-section {
+  color: black;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  padding: 1rem 3rem;
+}
+.home-blogs-section > p:first-child {
+  font-size: 35px;
+  font-weight: bold;
+}
+.home-blogs-cont {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  column-gap: 1rem;
+}
+@media screen and (max-width: 800px) {
+  .home-blogs-cont {
+    height: 85vh;
+  }
+}
+.home-blogs-cont  a {
+  border-bottom: 1px rgb(167, 167, 167) solid;
+  padding: 0.5rem;
+  color: black;
+  font-weight: bold;
+}
+.no-blogs-div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
 .sidenav {
   display: flex;
   flex-direction: column;
@@ -44,9 +169,11 @@ a:hover {
   justify-content: stretch;
   gap: 1rem;
   height: max(100vh, 100vw, 1000px);
-  background-color: var(--form-bg-clr);
-  color: white;
+  background-color: var(--nav-color);
   padding: 1rem;
+}
+.sidenav a {
+  color: var(--anchor-color);
 }
 .dashboard-cont {
   display: flex;
@@ -54,18 +181,7 @@ a:hover {
   gap: 1rem;
   flex: 1 1 auto;
 }
-.dashboard-blogs-cont {
-  display: flex;
-  flex-wrap: wrap;
-  height: 100%;
-  gap: 1rem;
-  flex: 1;
-}
-.dashboard-blogs-cont > * {
-  flex-grow: 2;
-  /* width: min(15rem, 45%, 25vw); */
-  
-}
+
 
 
 
