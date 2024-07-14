@@ -135,8 +135,8 @@ export default function CreateBlog() {
         if (!errMsg && status === 'idle' && isOk) {
           setStatus('pending');
           await addBlog({
-            userId: fieldState.author,
             id: idCount + 1,
+            userId: fieldState.author,
             title: fieldState.title,
             date,
             body: fieldState.blogContent,

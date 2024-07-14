@@ -236,12 +236,12 @@ export default function EditUser({ id }) {
   };
 
   const [fullNameState, fullNameDispatch] = useReducer(fullNameAction, {
-    fullName: '',
+    fullName: wantedUser? wantedUser.name :'',
     fullNameValid: false,
     fullNameFocus: false
   });
   const [userState, userDispatch] = useReducer(userAction, {
-    userName: wantedUser? wantedUser.name : '',
+    userName: wantedUser? wantedUser.username : '',
     userNameValid: false,
     userNameFocus: false
   });
@@ -389,7 +389,8 @@ export default function EditUser({ id }) {
         if (!errMsg && isOk) {
             await editUser({
                 id: id,
-                name: userState.userName,
+                name: fullNameState.fullName,
+                username: userState.userName,
                 email: emailState.email,
                 password: pwdState.pwd,
                 address: {
@@ -440,8 +441,12 @@ export default function EditUser({ id }) {
    }
    
 };
+ const canSave = userState.userNameValid && fullNameState.fullNameValid &&
+ addressState.cityValid && addressState.streetValid && emailState.emailValid &&
+ pwdState.pwdValid
+
  useEffect(() => {
-    if (Auth.user) {
+    if (Auth.user && canSave) {
         router.push('/dashboard')
       }
  }, [Auth, router]);
@@ -679,7 +684,7 @@ export default function EditUser({ id }) {
          }>
             <p>Must match the previously provided password</p>
          </div>
-         <button className={style.submitBtn}>Edit</button>
+         <button className={style.submitBtn} disabled={!canSave}>Edit</button>
          <div>Already have an account? <Link href='signin'>Sign in</Link></div>
 
     </form>

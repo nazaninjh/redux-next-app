@@ -81,8 +81,8 @@
   border-radius: 0.5rem;
   border-top-left-radius: 0;
   position: absolute;
-  top: 2.3rem;
-  left: 27rem;
+  top: 2.5rem;
+  left: 30vw;
   z-index: 2;
 }
 .localBlogNav a {
@@ -101,11 +101,11 @@
   padding: 2rem;
   max-width: 100%;
 }
-
 .card {
   display:  flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   border: 3px solid white;
   box-shadow: 2px 2px 8px var(--bg-gray-clr);
   background-color: var(--bg-gray-clr);
@@ -114,6 +114,8 @@
   padding: 1rem;
   position: relative;
   width: 80%;
+  height: auto;
+  text-align: center;
 }
 
 
@@ -232,7 +234,7 @@
 
 
 .paginationCont {
-  width: 100%;
+  width: fit-content;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
