@@ -3,6 +3,7 @@ import { selectBlogById, useGetAllBlogsQuery } from "./../lib/features/blog/blog
 import { useSelector } from "react-redux";
 import style from './../app/page.module.css';
 import { selectUserById, useGetAllUsersQuery } from "./../lib/features/users/usersSlice";
+import { format } from "date-fns";
 export default function BlogsById({blogId}) {
     const {
         isSuccess,
@@ -21,7 +22,7 @@ export default function BlogsById({blogId}) {
           <article className={style.card}>
             <p>Title: {blog.title}</p>
             <p>Content: {blog.body}</p>
-            <p>Date: {blog.date}</p>
+            <p>Date: {format(new Date(blog.date), 'yyyy, MMMM, dd')}</p>
             {user && <p>Posted by {user.name}</p>}
           </article>
         </section>

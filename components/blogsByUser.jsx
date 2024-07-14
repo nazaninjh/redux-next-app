@@ -46,7 +46,6 @@ export default function BlogsByUser( { userId } ) {
       const num = (e.target.id);
       setPageNum(num);
     }
-    console.log(blogsByUser)
     let content;
     if (userId && blogsByUser.length === 0) {
       content = <div className='no-blogs-div'>
@@ -122,8 +121,10 @@ export default function BlogsByUser( { userId } ) {
     }
     return (
         <>
-        {content}
-        <section className={style.paginationCont}>
+        {blogsByUser.length !== 0 ?
+        <section className={style.cardContainer}>
+          {content}
+          <section className={style.paginationCont}>
         {pages.map(pageNum => {
             return (
               <button key={pageNum}
@@ -135,6 +136,8 @@ export default function BlogsByUser( { userId } ) {
             )
         })}
         </section>
+        </section> : content}
+        
         </>
     )
         

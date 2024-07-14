@@ -7,6 +7,7 @@ import { useSelector } from 'react-redux';
 import './../../../globals.css';
 import style from './../../../page.module.css';
 import Link from 'next/link';
+import { format } from "date-fns";
 export default function BlogsByUser({ params }) {
    const userId = params.userId;
    const {
@@ -34,7 +35,7 @@ export default function BlogsByUser({ params }) {
         className={style.card}>
           <p>Title: {blog.title}</p>
           <p>Content: {blog.body}</p>
-          <p>Date: {blog.date}</p>
+          <p>Date: {format(new Date(blog.date), 'yyyy, MMMM, dd')}</p>
         </article>
         )
       })}

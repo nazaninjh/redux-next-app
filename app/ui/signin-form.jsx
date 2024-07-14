@@ -16,7 +16,7 @@ export default function CreateSigninForm() {
   const { setAuth, Auth } = useContext(AuthContext);
   const router = useRouter();
   const userRef = useRef();
-  const [errMsg, setErrMsg] = useState(null);
+  const [errMsg, setErrMsg] = useState(true);
   const { data } = useGetAllUsersQuery();
 
   const users = useSelector(state => selectAllUsers(state));
@@ -112,28 +112,41 @@ export default function CreateSigninForm() {
   
 
   const validateSignin = () => {
-        // setErrMsg(false);
-        for (let user of users) {
-            let userName = user.username.toLowerCase();
-            let stateUserName = userState.userName.toLowerCase();
-            if (userName === stateUserName) {
-                
-                if (user.password === pwdState.pwd) {
-                        setErrMsg(false);
-                        break;
-                } else {
-                         setErrMsg('Password Incorrect!');
-                     }
-                     return;
-                } else if (userName !== stateUserName) {
-                     if (user.password !== pwdState.pwd) {
-                         setErrMsg('User does not exists!');
-                     } else {
-                         setErrMsg(false);
-                        break;
-                     }
-                 }
+        const user = users.find(user => user.username === userState.userName);
+        if (!user) {
+            console.log('User not found')
+            setErrMsg('User not found')
+        } else if (user) {
+            if (user.password !== pwdState.pwd) {
+                console.log('Password is incorrect!')
+                setErrMsg('Password is incorrect!')
+            } else if (user.password === pwdState.pwd) {
+                setErrMsg(false)
+            }
         }
+        // for (let user of users) {
+        //     let userName = user.username.toLowerCase();
+        //     let stateUserName = userState.userName.toLowerCase();
+            
+        //     if (userName === stateUserName) {
+        //         if (user.password === pwdState.pwd) {
+        //                 console.log('pass ok')
+        //                 setErrMsg(false);
+        //                 break;
+        //         } else if (user.password !== pwdState.pwd) {
+        //                  console.log('pass not ok')
+        //                  setErrMsg('Password Incorrect!');
+        //              }
+        //              return;
+        //         } else if (userName !== stateUserName) {
+        //              if (user.password !== pwdState.pwd) {
+        //                  setErrMsg('User and password does not exists!');
+        //              } else if (user.password === pwdState.pwd) {
+        //                  setErrMsg('User name is incorrect!');
+        //                 break;
+        //              }
+        //          }
+        // }
   };
 
     
@@ -141,7 +154,18 @@ export default function CreateSigninForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-   validateSignin();
+    const user = users.find(user => user.username === userState.userName);
+    if (!user) {
+        console.log('User not found')
+        setErrMsg('User not found')
+    } else if (user) {
+        if (user.password !== pwdState.pwd) {
+            console.log('Password is incorrect!')
+            setErrMsg('Password is incorrect!')
+        } else if (user.password === pwdState.pwd) {
+            setErrMsg(false)
+        }
+    }
    if (!errMsg) {
         userDispatch({
             type: 'user-name',
@@ -152,16 +176,17 @@ export default function CreateSigninForm() {
             value: ''
         });
         setAuth({user: userState.userName.toLowerCase()});
-        setErrMsg(null)
+        // setErrMsg(null)
     }
-  
+    
  };
  useEffect(() => {
-    if (Auth.user) {
+    if (Auth.user && !errMsg) {
         router.push('/dashboard')
       }
  }, [Auth, router])
- 
+  const canSave = pwdState.pwdValid && userState.userName; 
+  
   return (
     <section>
         <p>
@@ -204,7 +229,7 @@ export default function CreateSigninForm() {
             value: false
          })}
          id="pwd"/>
-         <button className={style.submitBtn}>Sign in</button>
+         <button className={style.submitBtn} disabled={!canSave}>Sign in</button>
          <div>Don't have an account? <Link href='signup'>Register</Link></div>
          </form>
     </section>

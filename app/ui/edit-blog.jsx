@@ -11,6 +11,8 @@ const TITLE_REG = /^[a-zA-Z0-9_].{4,20}$/;
 const CONTENT_REG = /^[a-zA-Z0-9_].{10,150}$/;
 
 export default function EditBlog({ blogId }) {
+  // authorize the user who is logged in
+  // not everyone
   const router = useRouter();
   const [errMsg, setErrMsg] = useState(null);
   const [isOk, setIsOk] = useState(false);
@@ -136,7 +138,7 @@ export default function EditBlog({ blogId }) {
             id: toEditBlog.id,
             userId: fieldState.author,
             title: fieldState.title,
-            content: fieldState.blogContent,
+            body: fieldState.blogContent,
             date,
           }).unwrap();
         }   

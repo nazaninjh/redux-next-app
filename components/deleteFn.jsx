@@ -41,7 +41,7 @@ export default function DeleteFn({ id, type }) {
         router.push('/blog');
       } else if (type === 'user') {
         await deleteUser(id);
-        router.push('/dashboard');
+        router.push('/dashboard/signup');
       }
     } catch (err) {
       console.log(err);
