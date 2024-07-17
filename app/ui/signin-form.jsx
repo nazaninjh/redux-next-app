@@ -11,8 +11,6 @@ const PWD_REG = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!%$#]).{8,24}$/;
 const NAME_REG = /^[a-zA-Z][^0-9]{4,13}$/;
 
 export default function CreateSigninForm() {
-  // note
-  // try using formData / server actions instead of state
   const { setAuth, Auth } = useContext(AuthContext);
   const router = useRouter();
   const userRef = useRef();

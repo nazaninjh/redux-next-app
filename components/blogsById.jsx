@@ -1,9 +1,10 @@
 'use client'
-import { selectBlogById, useGetAllBlogsQuery } from "./../lib/features/blog/blogSlice";
+import { selectAllBlogs, selectBlogById, useGetAllBlogsQuery } from "./../lib/features/blog/blogSlice";
 import { useSelector } from "react-redux";
 import style from './../app/page.module.css';
 import { selectUserById, useGetAllUsersQuery } from "./../lib/features/users/usersSlice";
 import { format } from "date-fns";
+import SingleBlogSkeleton from "../app/ui/singleBlogSkeleton";
 export default function BlogsById({blogId}) {
     const {
         isSuccess,
@@ -11,7 +12,7 @@ export default function BlogsById({blogId}) {
         isError,
         error
       } = useGetAllBlogsQuery();
-      const blog = useSelector(state => selectBlogById(state, Number(blogId)));
+      const blog = useSelector(state => selectBlogById(state, blogId))
       const {
         data
       } = useGetAllUsersQuery();
@@ -25,10 +26,11 @@ export default function BlogsById({blogId}) {
             <p>Date: {format(new Date(blog.date), 'yyyy, MMMM, dd')}</p>
             {user && <p>Posted by {user.name}</p>}
           </article>
+  
         </section>
         
     } else if (isLoading) {
-        content = <p>Loading......</p>
+        content = <SingleBlogSkeleton />
     } 
     else if (isError) {
     content = <div>{error.data}</div>

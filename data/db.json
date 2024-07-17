@@ -119,6 +119,18 @@
         "city": "Lebsackbury"
       },
       "phone": "024-648-3804"
+    },
+    {
+      "id": "11",
+      "name": "Nazanin Hashemi",
+      "username": "Nazanin",
+      "email": "nazanin@gmail.com",
+      "password": "Nazanin45#",
+      "address": {
+        "street": "Pasdaran",
+        "city": "Tehran"
+      },
+      "phone": "09126598745"
     }
   ],
   "blogs": [

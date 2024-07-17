@@ -11,7 +11,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { type } from "os";
 const EMAIL_REG = /^[a-zA-Z](?=.*@).{13,24}$/
 const PWD_REG = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!%$#]).{8,24}$/;
-const NAME_REG = /^[a-zA-Z][^0-9]{3,13}$/;
+const NAME_REG = /^[a-zA-Z][^0-9]{3,20}$/;
 const PHONE_REG = /[0-9]{10,15}/;
 const ADDRESS_REG = /^[a-zA-Z]{3,13}$/
 export default function CreateForm() {

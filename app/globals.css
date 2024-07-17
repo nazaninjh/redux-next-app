@@ -92,8 +92,9 @@ a:hover {
 .home-search-section {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between; 
   align-items: center;
+  justify-content: center;
+  height: min-content;
   padding: 1rem 4rem;
   background-color: var(--main-orange);
   color: black;
@@ -107,19 +108,27 @@ a:hover {
   margin: 0;
   padding: 0.5rem;
 }
-
-.home-search-section > .search-cont > input {
-  border: var(--anchor-color) solid 1px;
+.searchPlusResultCont {
+  display: flex;
+  flex-direction: column;
+}
+.searchCont {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-self: flex-end;
+  width: fit-content;
+}
+.searchCont  input {
+  border: white solid 1px;
   outline: none;
-  border-radius: 1rem;
   position: relative;
   transform: translateX(35px);
   z-index: 1;;
 }
-.home-search-section .search-cont > button  {
+.searchCont > button  {
   background-color: black;
   color: white;
-  border: none;
+  border: solid 1px black;
   border-radius: 1rem;
   position: relative;
   padding: 0.5rem;
@@ -127,7 +136,37 @@ a:hover {
   z-index: 2;
   font-weight: bold;
   font-size: 10px;
+  cursor: pointer;
 }
+.searchResultCont.hide {
+  display: none;
+}
+.searchResultCont {
+  background-color: #ffffff;
+  width: fit-content;
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  margin-top: 1.5rem;
+  transform: translateX(35px);
+  padding: 0.5rem;
+  width: 12rem;
+  height: fit-content;
+}
+.searchResult {
+  color: black;
+  text-transform: capitalize;
+  font-weight: normal;
+  width: fit-content;
+}
+.searchResult:visited {
+  color: black;
+}
+.searchResult:hover {
+  color: var(--anchor-color);
+}
+
+
 .home-blogs-section {
   color: black;
   display: flex;

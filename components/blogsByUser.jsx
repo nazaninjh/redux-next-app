@@ -5,14 +5,13 @@ import { useGetAllUsersQuery, selectAllUsers } from './../lib/features/users/use
 import { useSelector } from 'react-redux';
 import style from './../app/page.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEllipsisV } from "@fortawesome/free-solid-svg-icons";
+import { faEllipsisV, faChevronRight, faChevronLeft } from "@fortawesome/free-solid-svg-icons";
 import { useState, useRef, useEffect, useMemo } from 'react';
 import Link from 'next/link';
 import { formatDistance } from 'date-fns';
 export default function BlogsByUser( { userId } ) {
-   // show only three blogs
-   // add pagination 
     const [ elipsisClicked, setElipsisClicked ] = useState(false);
+    
     const optionsRef = useRef({current: 1});
     const toggleElipsis = (e) => {
         optionsRef.current = e.target.id;
@@ -23,29 +22,39 @@ export default function BlogsByUser( { userId } ) {
     const users = useSelector(state => selectAllUsers(state));
     const user = users.find(user => user.id === userId);
     const blogs = useSelector(state => selectAllBlogs(state));
-    const blogsByUser = blogs.filter(blog => {
-      return Number(blog.userId) === Number(userId)
-    });
-    const paginationCount = userId ? Math.floor(blogsByUser.length / 3) :
+    const blogsByUser = blogs.filter(blog => Number(blog.userId) === Number(userId));
     Math.floor(blogs.length / 6);
     const [pageNum, setPageNum] = useState(1);
-    let pages = [];
-    for (let i=1; i <= paginationCount; i++) {
-        let content = i;
-        pages.push(content)   
-    };
-    let latestBlogs = userId ? blogsByUser.slice(0, 3) :
-    blogs.slice(0, 6);
     const lastBlogIndex = userId ? pageNum * 3 : 
     pageNum * 6;
     const firstBlogIndex = userId ? lastBlogIndex - 3 : 
     lastBlogIndex - 6;
-    latestBlogs =  userId ? blogsByUser.slice(firstBlogIndex, lastBlogIndex) :
-    blogs.slice(firstBlogIndex, lastBlogIndex);
+   
+    let pages = [1, 2, 3];
+    
+    let latestBlogs = userId ? blogsByUser.slice(0, 3) :
+    blogs.slice(0, 6);
+    
+    latestBlogs = userId ? blogsByUser.slice(firstBlogIndex, lastBlogIndex)
+    : blogs.slice(firstBlogIndex, lastBlogIndex);
+
+
     const handlePaginationClick = (e) => {
       const num = (e.target.id);
       setPageNum(num);
+    };
+    
+    const goNext = () => {
+      console.log('next');
+      setPageNum((prev) => prev + 1)
     }
+    const goBack = () => {
+      console.log('back')
+      if (pageNum > 1) {
+        setPageNum((prev) => prev - 1);
+      }
+     
+    };
     let content;
     if (userId && blogsByUser.length === 0) {
       content = <div className='no-blogs-div'>
@@ -78,7 +87,7 @@ export default function BlogsByUser( { userId } ) {
             <h4>{blog.title}</h4>
             <p>{blog.body}</p>
             <p>{formatDistance(new Date(blog.date), new Date())}</p>
-            <Link href={`blog/${blog.id}`} key={blog.id}>
+            <Link href={`/blog/${blog.id}`} key={blog.id}>
                 View Post
             </Link>
           </article>
@@ -112,7 +121,7 @@ export default function BlogsByUser( { userId } ) {
             <h4>{blog.title}</h4>
             <p>{blog.body}</p>
             <p>{formatDistance(new Date(blog.date), new Date())}</p>
-            <Link href={`blog/${blog.id}`} key={blog.id}>
+            <Link href={`/blog/${blog.id}`} key={blog.id}>
                 View Post
             </Link>
           </article>
@@ -121,22 +130,56 @@ export default function BlogsByUser( { userId } ) {
     }
     return (
         <>
-        {blogsByUser.length !== 0 ?
+        {!userId &&  <section className={style.cardContainer}>
+        {content}
+        <section className={style.paginationCont}>
+        
+        <button className={style.paginationNavBtn} 
+        onClick={() => goBack()}>
+          <FontAwesomeIcon icon={faChevronLeft} />
+        </button>
+          {pages.map(pageNum => {
+              return (
+                <button key={pageNum}
+                id={pageNum}
+                onClick={(e) => handlePaginationClick(e)}
+                className={style.paginationBtn}>
+                  {pageNum}
+              </button>
+              )
+          })}
+        <button className={style.paginationNavBtn}
+        onClick={() => goNext()}>
+          <FontAwesomeIcon icon={faChevronRight} />
+        </button>
+      </section></section>}
+
+        {blogsByUser.length !== 0 && userId &&
         <section className={style.cardContainer}>
-          {content}
-          <section className={style.paginationCont}>
-        {pages.map(pageNum => {
-            return (
-              <button key={pageNum}
-              id={pageNum}
-              onClick={(e) => handlePaginationClick(e)}
-              className={style.paginationBtn}>
-                {pageNum}
-            </button>
-            )
-        })}
-        </section>
-        </section> : content}
+        {content}
+        <section className={style.paginationCont}>
+        <button className={style.paginationNavBtn} 
+        onClick={() => goBack()}>
+          <FontAwesomeIcon icon={faChevronLeft} />
+        </button>
+        
+          {pages.map(pageNum => {
+              return (
+                <button key={pageNum}
+                id={pageNum}
+                onClick={(e) => handlePaginationClick(e)}
+                className={style.paginationBtn}>
+                  {pageNum}
+              </button>
+              )
+          })}
+        <button className={style.paginationNavBtn}
+        onClick={() => goNext()}>
+          <FontAwesomeIcon icon={faChevronRight} />
+        </button>
+      </section>
+      </section>}
+      {/* {userId && blogsByUser.length !== 0 && content} */}
         
         </>
     )

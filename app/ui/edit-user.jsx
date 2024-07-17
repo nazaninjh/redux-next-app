@@ -18,7 +18,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";;
 const EMAIL_REG = /^[a-zA-Z](?=.*@).{13,24}$/
 const PWD_REG = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!%$#]).{8,24}$/;
-const NAME_REG = /^[a-zA-Z][^0-9]{4,13}$/;
+const NAME_REG = /^[a-zA-Z][^0-9]{4,20}$/;
 const PHONE_REG = /[0-9]{10,15}/;
 const ADDRESS_REG = /^[a-zA-Z]{3,13}$/
 
