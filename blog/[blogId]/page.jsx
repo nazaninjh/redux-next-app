@@ -1,7 +1,15 @@
 import BlogsById from './../../../components/blogsById';
+import { getBlogs } from '../../../lib/getBlogsAsync';
 
+export async function generateStaticParams() {
+  const blogs = await getBlogs();
+  if (blogs) {
+    return blogs.map(blog => ({
+      blogId: blog.id
+    }))
+  } 
+}
 
 export default function BlogPage({ params }) {
-  // how to show date more understandable?
   return <BlogsById blogId={params.blogId} />
 }

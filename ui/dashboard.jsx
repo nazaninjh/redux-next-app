@@ -14,12 +14,9 @@ export default function Dashboard({ Authuser }) {
     // const { data: blogData } = useGetAllBlogsQuery();
     const users = useSelector(state => selectAllUsers(state));
     const logedUser = users.find(user => user.username.toLowerCase() === AuthUserName);
-    console.log(logedUser)
-    // const blogs = useSelector(state => selectAllBlogs(state));
-    
     return (
         <section className='dashboard-cont'>
-        <DashboardSidenav id={logedUser.id}/>
+        <DashboardSidenav userId={logedUser.id}/>
         <BlogsByUser userId={logedUser.id}/>
         </section>
         

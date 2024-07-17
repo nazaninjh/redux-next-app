@@ -9,9 +9,7 @@ import { selectAllUsers } from "../../lib/features/users/usersSlice";
 import BlogsByUser from "../../components/blogsByUser";
 import BlogPageSkeleton from "../ui/blogPageSkeleton";
 export default function Blogpage() {
-  // add edit
-  // get the first 5 blogs and add pagination
- 
+ // make it into another component to not use client
   const {
     data,
     isSuccess,
@@ -19,23 +17,16 @@ export default function Blogpage() {
     isError,
     error
   } = useGetAllBlogsQuery();
-  const blogs = useSelector(state => selectAllBlogs(state));
-  const users = useSelector(state => selectAllUsers(state));
   let content;
   if (isSuccess) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     content = <BlogsByUser /> 
-} else if (isLoading) {
+  } else if (isLoading) {
     content = <BlogPageSkeleton />
-} 
-else if (isError) {
-content = <div>{error.data}</div>
-} 
+  } else if (isError) {
+    content = <div>{error.data}</div>
+  } 
 
-  return (
-    <section className={style.cardContainer}>
-      {content}
-    </section>
-  )
+  return content
 }
 
