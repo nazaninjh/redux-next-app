@@ -4,7 +4,7 @@ import { useSelector } from "react-redux"
 import { selectUserById } from "../../lib/features/users/usersSlice"
 import style from './../page.module.css';
 export default function Profile({ id }) {
-  const user = useSelector(state => selectUserById(state, id));
+  const user = useSelector(state => selectUserById(state, Number(id)));
   let content;
   if (!user) {
     content= <>

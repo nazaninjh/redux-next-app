@@ -5,7 +5,7 @@ const { createContext, useState } = require("react");
 const AuthContext = createContext({});
 
 export const AuthProvider = ({ children }) => {
-    const [Auth, setAuth] = useState({user: 'Moriah.Stanton'});
+    const [Auth, setAuth] = useState({user: ''});
     return (<AuthContext.Provider value={{Auth, setAuth}}>
         {children}
     </AuthContext.Provider>)

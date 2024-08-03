@@ -11,10 +11,13 @@ export default function SearchByTitle() {
   const [searchValue, setSearchValue] = useState('');
   const [result, setResult] = useState([]);
   const blogs = useSelector(state => selectAllBlogs(state));
-
+  console.log(searchValue);
+//   useEffect(()=>{
+//     console.log(searchValue);
+// },[searchValue])
   const handleChange = async (e) => {
     setSearchValue(e.target.value);
-    let result;
+    let result; 
     result = blogs.filter(blog => {
       let title = blog.title.toLowerCase();
       let value = searchValue.toLowerCase();

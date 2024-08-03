@@ -9,8 +9,12 @@ export default function DashboardPage() {
   // check auth
   const { Auth } = useContext(AuthContext);
   const router = useRouter();
+  const store = window.localStorage;
+  const storeExists = store.getItem('user');
+  const storeUser = 
+  console.log(storeExists);
   useEffect(() => {
-    if (Auth?.user) {
+    if (Auth?.user || store.user) {
       router.push('dashboard')
     } else if (!Auth?.user) {
       router.push('dashboard/signup')
@@ -18,7 +22,7 @@ export default function DashboardPage() {
   }, [Auth, router])
   
   return (
-    Auth.user ? <Dashboard Authuser={Auth.user}/> : <p></p>
+    (Auth.user || store.user) ? <Dashboard Authuser={store.user || Auth.user}/> : <p></p>
   )
 }
 

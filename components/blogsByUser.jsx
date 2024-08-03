@@ -24,6 +24,8 @@ export default function BlogsByUser( { userId } ) {
     const blogs = useSelector(state => selectAllBlogs(state));
     const blogsByUser = blogs.filter(blog => Number(blog.userId) === Number(userId));
     Math.floor(blogs.length / 6);
+    const paginationCount = userId ? Math.floor(blogsByUser.length / 3) :
+    Math.floor(blogs.length / 6);
     const [pageNum, setPageNum] = useState(1);
     const lastBlogIndex = userId ? pageNum * 3 : 
     pageNum * 6;
@@ -46,15 +48,17 @@ export default function BlogsByUser( { userId } ) {
     
     const goNext = () => {
       console.log('next');
-      setPageNum((prev) => prev + 1)
+      if (pageNum < paginationCount) {
+        setPageNum((prev) => prev + 1)
+      }
     }
     const goBack = () => {
-      console.log('back')
       if (pageNum > 1) {
         setPageNum((prev) => prev - 1);
       }
      
     };
+  
     let content;
     if (userId && blogsByUser.length === 0) {
       content = <div className='no-blogs-div'>
@@ -62,6 +66,7 @@ export default function BlogsByUser( { userId } ) {
         <Link href='/blog/create'>Post a blog</Link>
       </div>
     } else if (userId) {
+        
         content = latestBlogs.map(blog => {
         return (
           <article key={blog.id}
@@ -77,7 +82,7 @@ export default function BlogsByUser( { userId } ) {
                 />
               </button>
             </span>
-            {( elipsisClicked && optionsRef.current === blog.id ) && 
+            {( elipsisClicked && Number(optionsRef.current) === Number(blog.id) ) && 
             <div className={style.optionsIconNav}>
               <Link href={`/blog/edit/${blog.id}`}>Edit</Link>
               <Link href={`/blog/delete/${blog.id}`}>Delete</Link>
@@ -111,7 +116,7 @@ export default function BlogsByUser( { userId } ) {
                 />
               </button>
             </span>
-            {( elipsisClicked && optionsRef.current === blog.id ) && 
+            {( elipsisClicked && Number(optionsRef.current) === Number(blog.id) ) && 
             <div className={style.optionsIconNav}>
               <Link href={`/blog/edit/${blog.id}`}>Edit</Link>
               <Link href={`/blog/delete/${blog.id}`}>Delete</Link>

@@ -18,9 +18,9 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";;
 const EMAIL_REG = /^[a-zA-Z](?=.*@).{13,24}$/
 const PWD_REG = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!%$#]).{8,24}$/;
-const NAME_REG = /^[a-zA-Z][^0-9]{4,20}$/;
+const NAME_REG = /^[a-zA-Z][^0-9]{3,20}$/;
 const PHONE_REG = /[0-9]{10,15}/;
-const ADDRESS_REG = /^[a-zA-Z]{3,13}$/
+const ADDRESS_REG = /^[ a-zA-Z0-9]{3,18}$/
 
 export default function EditUser({ id }) {
   const wantedUser = useSelector(state => selectUserById(state, id));
@@ -443,7 +443,7 @@ export default function EditUser({ id }) {
 };
  const canSave = userState.userNameValid && fullNameState.fullNameValid &&
  addressState.cityValid && addressState.streetValid && emailState.emailValid &&
- pwdState.pwdValid
+ pwdState.pwdValid && phoneState.phoneValid
 
  useEffect(() => {
     if (Auth.user && canSave) {

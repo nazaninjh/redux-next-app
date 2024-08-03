@@ -9,6 +9,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPen } from "@fortawesome/free-solid-svg-icons";
 
 export default function RootLayout({ children }) {
+  const store = window.localStorage;
   const [hover, setHover] = useState(false);
   const [miniNavHover, setMiniNavHover] = useState(false);
   const showBlogNav = () => {
@@ -47,7 +48,8 @@ export default function RootLayout({ children }) {
                 </nav>}
               </div>
               <div className="gp-two">
-                <Link href='/dashboard/signin'>log in</Link>
+                {store.user ? <Link href='/dashboard/logout'>log out</Link>
+                : <Link href='/dashboard/signin'>log in</Link>}
                 <div className="nav-signup-gp">
                   <Link href='/dashboard/signup'>sign up</Link>
                   <FontAwesomeIcon icon={faPen}

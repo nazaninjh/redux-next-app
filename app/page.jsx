@@ -9,7 +9,6 @@ export const metadata = {
 
 export default function Home() {
   return (
-      
       <main className={styles.main}>
         <section className="top-section">
           <p>Blogs</p>

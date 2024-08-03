@@ -7,8 +7,9 @@ import AuthContext from "./../../context/AuthProvider";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useSelector } from "react-redux";
+
 const PWD_REG = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!%$#]).{8,24}$/;
-const NAME_REG = /^[a-zA-Z][^0-9]{4,13}$/;
+const NAME_REG = /^[a-zA-Z][^0-9]{3,20}$/;
 
 export default function CreateSigninForm() {
   const { setAuth, Auth } = useContext(AuthContext);
@@ -107,45 +108,23 @@ export default function CreateSigninForm() {
     })
      
   }, [pwdState.pwd])
+ 
   
 
-  const validateSignin = () => {
-        const user = users.find(user => user.username === userState.userName);
-        if (!user) {
-            console.log('User not found')
-            setErrMsg('User not found')
-        } else if (user) {
-            if (user.password !== pwdState.pwd) {
-                console.log('Password is incorrect!')
-                setErrMsg('Password is incorrect!')
-            } else if (user.password === pwdState.pwd) {
-                setErrMsg(false)
-            }
-        }
-        // for (let user of users) {
-        //     let userName = user.username.toLowerCase();
-        //     let stateUserName = userState.userName.toLowerCase();
-            
-        //     if (userName === stateUserName) {
-        //         if (user.password === pwdState.pwd) {
-        //                 console.log('pass ok')
-        //                 setErrMsg(false);
-        //                 break;
-        //         } else if (user.password !== pwdState.pwd) {
-        //                  console.log('pass not ok')
-        //                  setErrMsg('Password Incorrect!');
-        //              }
-        //              return;
-        //         } else if (userName !== stateUserName) {
-        //              if (user.password !== pwdState.pwd) {
-        //                  setErrMsg('User and password does not exists!');
-        //              } else if (user.password === pwdState.pwd) {
-        //                  setErrMsg('User name is incorrect!');
-        //                 break;
-        //              }
-        //          }
-        // }
-  };
+//   const validateSignin = () => {
+//         const user = users.find(user => user.username === userState.userName);
+//         if (!user) {
+//             console.log('User not found')
+//             setErrMsg('User not found')
+//         } else if (user) {
+//             if (user.password !== pwdState.pwd) {
+//                 console.log('Password is incorrect!')
+//                 setErrMsg('Password is incorrect!')
+//             } else if (user.password === pwdState.pwd) {
+//                 setErrMsg(false)
+//             }
+//         }
+//   };
 
     
   
@@ -154,11 +133,9 @@ export default function CreateSigninForm() {
     e.preventDefault();
     const user = users.find(user => user.username === userState.userName);
     if (!user) {
-        console.log('User not found')
         setErrMsg('User not found')
     } else if (user) {
         if (user.password !== pwdState.pwd) {
-            console.log('Password is incorrect!')
             setErrMsg('Password is incorrect!')
         } else if (user.password === pwdState.pwd) {
             setErrMsg(false)
@@ -173,8 +150,7 @@ export default function CreateSigninForm() {
             type: 'pwd',
             value: ''
         });
-        setAuth({user: userState.userName.toLowerCase()});
-        // setErrMsg(null)
+        setAuth({user: userState.userName.toLowerCase()})
     }
     
  };
@@ -183,7 +159,9 @@ export default function CreateSigninForm() {
         router.push('/dashboard')
       }
  }, [Auth, router])
-  const canSave = pwdState.pwdValid && userState.userName; 
+
+
+  const canSave = pwdState.pwdValid && userState.userNameValid; 
   
   return (
     <section>
