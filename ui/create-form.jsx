@@ -13,9 +13,10 @@ const EMAIL_REG = /^[a-zA-Z](?=.*@).{13,24}$/
 const PWD_REG = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!%$#]).{8,24}$/;
 const NAME_REG = /^[a-zA-Z][^0-9]{3,20}$/;
 const PHONE_REG = /[0-9]{10,15}/;
-const ADDRESS_REG = /^[a-zA-Z]{3,13}$/
+const ADDRESS_REG = /^[ a-zA-Z0-9]{3,18}$/;
 export default function CreateForm() {
   // add username and address field
+  const store = window.localStorage;
   const { setAuth, Auth } = useContext(AuthContext);
   const router = useRouter();
   const [addNewUser] = useAddNewUserMutation();
@@ -415,9 +416,12 @@ export default function CreateForm() {
  }
 };
  useEffect(() => {
-    if (Auth.user) {
-        router.push('/dashboard')
-      }
+    if (store.getItem('user')) {
+        router.push('/dashboard');
+    } else if (!store.getItem('user') && Auth.user) {
+        store.setItem('user', Auth.user);
+        router.push('/dashboard');
+    }
  }, [Auth, router]);
  
   return (

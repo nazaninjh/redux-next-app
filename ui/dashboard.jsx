@@ -6,19 +6,44 @@ import { selectAllUsers, useGetAllUsersQuery } from './../../lib/features/users/
 import BlogsByUser from './../../components/blogsByUser'
 import DashboardSidenav from './dashboardSidenav';
 import './../globals.css';
-import style from './../page.module.css'
+import { useEffect, useState } from 'react';
 export default function Dashboard({ Authuser }) {
-
-    const AuthUserName = Authuser.toLowerCase();
-    const { data } = useGetAllUsersQuery();
+    const [ loggedUser, setLoggedUser ] = useState(null);
+    const store = window.localStorage;
+    store.setItem('user', Authuser);
+    const storeUser = store.user.toLowerCase();
+    const AuthUserLowerCase = Authuser.toLowerCase();
+    // const { data } = useGetAllUsersQuery();
     // const { data: blogData } = useGetAllBlogsQuery();
     const users = useSelector(state => selectAllUsers(state));
-    const logedUser = users.find(user => user.username.toLowerCase() === AuthUserName);
+    // const logedUser = users.find(user => {
+    //     console.log(user.username.toLowerCase() === storeUser)
+    //     if (store.getItem('user')) {
+    //         return user.username.toLowerCase() === storeUser
+    //     } else {
+    //         return user.username.toLowerCase() === AuthUserLowerCase
+    //     }
+    // });
+    useEffect(() => {
+        let logged = users.find(user => {
+            console.log(user.username.toLowerCase() === storeUser)
+            if (store.getItem('user')) {
+                return user.username.toLowerCase() === storeUser
+            } else {
+                return user.username.toLowerCase() === AuthUserLowerCase
+            }
+        });
+        setLoggedUser(logged)
+    }, [storeUser, AuthUserLowerCase, users])
     return (
         <section className='dashboard-cont'>
-        <DashboardSidenav userId={logedUser.id}/>
-        <BlogsByUser userId={logedUser.id}/>
+        {loggedUser && <>
+            <DashboardSidenav userId={loggedUser.id}/>
+            <BlogsByUser userId={loggedUser.id}/>
+        </>}
         </section>
-        
     )
+        
+        
+    
 };
